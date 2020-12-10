@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.5.0/webcomponents-bundle.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" />    <title>KOD8 Web Components Demo</title>
+</head>
+
+<body>
+    <h1>KOD8 Web Components Demo</h1>
+    
+    <section class="spor">
+        <h3>Spor</h3>
+        <div class="item puan">
+            <h3>Puanlar</h3>
+        </div>
+        <div class="item sonuc">
+            <h3>Sonuçlar</h3>
+        </div>
+        <div class="item fikstur">
+            <h3>Fikstur</h3>
+        </div>
+    </section>
+
+    <section class="hava"></section>
+
+    <section class="namaz"></section>
+</body>
+
+<style>
+   
+
+    body{
+        width:100vw;
+    }
+    section{
+        background-color: rgb(209, 209, 209);
+        padding: 1em;
+        margin:5px 0;
+    }
+
+    .item{
+        background-color: rgb(228, 227, 227);
+        padding: 10px;
+        margin:10px 0;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .item > h3{
+        writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 25px;
+    }
+
+    .item .componenetContainer {
+        width:500px;
+        background:red;
+        margin:20px;
+    }
+
+
+
+</style>
+
+<script type="module" src="./kod8-custom-elements.js"></script>
+
+<script>
+
+//document.querySelector("puan-durumu").setAttribute("data-table-html", '<h3> hello </h3>')
+fetch("https://raw.githubusercontent.com/kod8/haber8-scraper/main/data/spor/spor.json")
+.then(function(res){
+    return res.json()
+}).then(handleSpor)
+
+var puanContainer = document.querySelector("section.spor .puan")
+var sonucContainer = document.querySelector("section.spor .sonuc")
+var fiksturContainer = document.querySelector("section.spor .fikstur")
+
+function handleSpor(data){
+    for(const lig in data){
+        var obj = data[lig]
+        ligName = obj.name;
+
+        var e1Container = document.createElement("div");
+        e1Container.classList.add("componenetContainer")
+        var puanElement = document.createElement("puan-durumu")
+        puanElement.setAttribute("lig", ligName)
+        puanElement.setAttribute("data-table-html", obj.puanHTML);
+        e1Container.appendChild(puanElement)
+        puanContainer.appendChild(e1Container);
+        
+        var e2Container = document.createElement("div");
+        e2Container.classList.add("componenetContainer")
+        var sonucElement = document.createElement("sonuc")
+        sonucElement.setAttribute("lig", ligName)
+        sonucElement.setAttribute("data-table-html", obj.sonucHTML);
+        e2Container.appendChild(sonucElement)
+        sonucContainer.appendChild(e2Container);
+
+        var e3Container = document.createElement("div");
+        e2Container.classList.add("componenetContainer")
+        var fiksturElement = document.createElement("fikstur")
+        fiksturElement.setAttribute("lig", ligName)
+        fiksturElement.setAttribute("data-table-html", obj.fiksturHTML);
+        e3Container.appendChild(sonucElement)
+        fiksturContainer.appendChild(e3Container);        
+    }
+}
+
+
+
+</script>
+
+
+
+</html>

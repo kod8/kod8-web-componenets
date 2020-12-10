@@ -1,0 +1,3 @@
+import "./puanDurumu.js";
+
+
