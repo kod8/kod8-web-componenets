@@ -17,6 +17,18 @@
         <h3>Spor</h3>
         <div class="item puan">
             <h3>Puanlar</h3>
+            <div class="componenetContainer">
+                <puan-durumu lig="superLig"></puan-durumu>
+
+            </div>
+            <div class="componenetContainer">
+                <puan-durumu lig="l3g4"></puan-durumu>
+            </div>
+
+            <div class="componenetContainer">
+                <puan-durumu lig="l1"></puan-durumu>
+            </div>
+
         </div>
         <div class="item sonuc">
             <h3>Sonuçlar</h3>
@@ -29,6 +41,8 @@
     <section class="hava"></section>
 
     <section class="namaz"></section>
+
+
 </body>
 
 <style>
@@ -63,6 +77,11 @@
         margin:20px;
     }
 
+    table{
+        width:100%;
+        background:blue!important;
+    }
+
 
 
 </style>
@@ -72,6 +91,7 @@
 <script>
 
 //document.querySelector("puan-durumu").setAttribute("data-table-html", '<h3> hello </h3>')
+/*
 fetch("https://raw.githubusercontent.com/kod8/haber8-scraper/main/data/spor/spor.json")
 .then(function(res){
     return res.json()
@@ -111,6 +131,9 @@ function handleSpor(data){
         fiksturContainer.appendChild(e3Container);        
     }
 }
+*/
+
+
 
 
 
