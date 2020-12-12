@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.5.0/webcomponents-bundle.js"></script>
+    <script defer src="./puanDurumu.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" />    <title>KOD8 Web Components Demo</title>
 </head>
@@ -18,11 +19,11 @@
         <div class="item puan">
             <h3>Puanlar</h3>
             <div class="componenetContainer">
-                <puan-durumu lig="superLig"></puan-durumu>
+                <puan-durumu lig="superLig" hl="Yeni Malatya"></puan-durumu>
 
             </div>
             <div class="componenetContainer">
-                <puan-durumu lig="l3g4"></puan-durumu>
+                <puan-durumu lig="l3g4" hl="Düzcespor"></puan-durumu>
             </div>
 
             <div class="componenetContainer">
@@ -72,7 +73,7 @@
     }
 
     .item .componenetContainer {
-        width:500px;
+        width:300px;
         background:red;
         margin:20px;
     }
@@ -86,7 +87,6 @@
 
 </style>
 
-<script type="module" src="./kod8-custom-elements.js"></script>
 
 <script>
 

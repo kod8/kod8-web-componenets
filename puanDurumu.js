@@ -18,14 +18,14 @@ template.innerHTML = `
         --gr3:linear-gradient(90deg, var(--light), var(--lighter));
         --gr4:linear-gradient(10deg, var(--light), var(--lighter));
 
-
         display:block;
-        font-size:.9em;
+        font-size:12px;
         border-radius:5px;
         color:var(--main);
         background:var(--lighter);
         padding:1em;
-        background:var(--gr2);
+		background:var(--gr2);
+		height:100%;
     } 
     
     .puanDurumuHTML{
@@ -48,6 +48,13 @@ template.innerHTML = `
         color:var(--lighter);
     }
 
+    caption h2{
+      text-align:left;
+      margin:0;
+      padding:10px 20px;
+      font-size:1.25em;
+  }
+
     abbr{
         text-decoration:none;
     }
@@ -57,24 +64,30 @@ template.innerHTML = `
         color:var(--lighter);
     }
 
-    table tbody tr:hover{
-        background:var(--main);
-        color:var(--lighter);
-    }
-
     table tr td{
         margin:1em;
-        font-weight:600;
+        font-weight:400;
     }
+
     table tbody tr{
         background:var(--gr4);
     }
+
+    table tbody tr.hl{
+      background:var(--main);
+      color:var(--lighter);
+   }
 
     table tr:nth-child(2n){
         color:var(--darker);
         background:var(--lighter);
 
     }
+    table tbody tr:hover{
+      background:var(--main);
+      color:var(--lighter);
+  }
+
 
     table tr td,table tr th{
         text-align: center;
@@ -91,7 +104,7 @@ template.innerHTML = `
     }
 
     table td{
-        padding:5px;
+        padding:5px 2.5px;
 
     }
 
@@ -116,7 +129,8 @@ template.innerHTML = `
 	background: linear-gradient(
 		to right,
 		var(--light) 0%,
-		var(--main) 100%
+      var(--main) 50%,
+      var(--light) 100%
 	);
 	animation: placeholder 1s ease-in both infinite;
 }
@@ -129,10 +143,7 @@ template.innerHTML = `
 		left: 100%;
 	}
 }
-
-			
-    
-    
+		
 </style>
 <h5 class = "title"> </h5>
 
@@ -144,40 +155,74 @@ template.innerHTML = `
 `
 
 class PuanDurumu extends HTMLElement {
-    constructor() {
-        super();
-        document.head.innerHTML += `<link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&display=swap" rel="stylesheet">`
-        this.attachShadow({mode:"open"})
-        this.shadowRoot.appendChild(template.content.cloneNode(true))
-        //this.tableHTML = this.getAttribute("data-table-html") || defaultTableHTML;
-        //this.shadowRoot.querySelector("h5.title").innerText = this.getAttribute("lig");
-        this.shadowRoot.querySelector(".puanDurumuHTML").innerHTML = defaultTableHTML;
-        this.setTableHTML = this.setTableHTML.bind(this);
+  constructor() {
+    super();
 
+    this.attachShadow({ mode: "open" });
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    //this.tableHTML = this.getAttribute("data-table-html") || defaultTableHTML;
+    //this.shadowRoot.querySelector("h5.title").innerText = this.getAttribute("lig");
+    this.shadowRoot.querySelector(
+      ".puanDurumuHTML"
+    ).innerHTML = defaultTableHTML;
+
+    this.setTableHTML = this.setTableHTML.bind(this);
+  }
+
+  connectedCallback() {
+    //this.tableHTML = this.getAttribute("data-table-html") || defaultTableHTML;
+    this.shadowRoot.querySelector(".puanDurumuHTML").classList.add("loading");
+    this.fetchTableHTML(this.getAttribute("lig"));
+
+    //this.innerHTML = this.tableHTML;
+
+    //this.shadowRoot.querySelector(".puanDurumuHTML").innerHTML += this.getAttribute("data-table-html");
+    document.head.innerHTML += `<link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&display=swap" rel="stylesheet">`;
+  }
+
+  disconnectedCallback() {
+   
+}
+
+static get observedAttributes() {
+	return ['hl', 'lig'];
+  }
+ 
+ attributeChangedCallback(name,oldVal,newVal) {
+	if(name == "hl") this.setHighlight();
+	else if(name == "lig") this.fetchTableHTML(newVal)
+}
+
+  fetchTableHTML = function (lig) {
+    fetch(`https://raw.githubusercontent.com/kod8/haber8-scraper/main/data/spor/html/puan/${lig}.html`)
+      .then(function (res) {
+        return res.text();
+      })
+      .then(this.setTableHTML);
+  };
+
+  setTableHTML = function (html) {
+    this.shadowRoot.querySelector(".puanDurumuHTML").innerHTML = html;
+    this.shadowRoot
+      .querySelector(".puanDurumuHTML")
+      .classList.remove("loading");
+    this.setHighlight();
+  };
+
+  setHighlight = function () {
+    if (this.getAttribute("hl")) {
+      var hl = this.getAttribute("hl");
+      this.shadowRoot.querySelectorAll("tr td:nth-child(2)").forEach(function (team) {
+		  if (team.innerText.trim() == hl) 
+		  	team.closest("tr").classList.add("hl");
+		  else 
+		  	team.closest("tr").classList.remove("hl");
+        });
     }
+  };
 
-    connectedCallback() {
-        //this.tableHTML = this.getAttribute("data-table-html") || defaultTableHTML;
-        this.shadowRoot.querySelector(".puanDurumuHTML").classList.add("loading");
-        this.fetchTableHTML(this.getAttribute("lig"));
 
-        //this.innerHTML = this.tableHTML;
-
-        //this.shadowRoot.querySelector(".puanDurumuHTML").innerHTML += this.getAttribute("data-table-html");
-    }
-
-    fetchTableHTML = function(lig){
-        fetch(`https://raw.githubusercontent.com/kod8/haber8-scraper/main/data/spor/html/puan/${lig}.html`)
-        .then(function(res){ 
-            return res.text();
-        }).then(this.setTableHTML);
-    }
-
-    setTableHTML = function(html){
-        this.shadowRoot.querySelector(".puanDurumuHTML").innerHTML = html;
-        this.shadowRoot.querySelector(".puanDurumuHTML").classList.remove("loading");
-    }
 }
 
 var defaultTableHTML = 
@@ -201,263 +246,10 @@ var defaultTableHTML =
    </tr>
 </thead>
 <tbody>
-   <tr>
-      <td class="se">-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
-   <tr>
-      <td class="se">-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
-   <tr>
-      <td class="ae">-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
-   <tr>
-      <td class="ae">-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
-   <tr>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
-   <tr>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
-   <tr>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
-   <tr>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
-   <tr>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
-   <tr>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
-   <tr>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
-   <tr>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
-   <tr>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
-   <tr>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
-   <tr>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
-   <tr>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
-   <tr>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
-   <tr>
-      <td class="kd">-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
-   <tr>
-      <td class="kd">-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
-   <tr>
-      <td class="kd">-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
-   <tr>
-      <td class="kd">-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-   </tr>
+   ${`<tr>${`<td>-</td>`.repeat(10)}</tr>`.repeat(21) }
 </tbody>
 </table>
     
 `
-
-
 
 window.customElements.define("puan-durumu", PuanDurumu)
