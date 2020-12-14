@@ -1,5 +1,5 @@
-const template = document.createElement("template");
-template.innerHTML = `
+const puanDurumuTemplate = document.createElement("template");
+puanDurumuTemplate.innerHTML = `
 <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
    :host * {
@@ -150,8 +150,6 @@ template.innerHTML = `
 <div class="puanDurumuHTML">
     
 </div>
-
-</div>
 `
 
 class PuanDurumu extends HTMLElement {
@@ -159,7 +157,7 @@ class PuanDurumu extends HTMLElement {
     super();
 
     this.attachShadow({ mode: "open" });
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.shadowRoot.appendChild(puanDurumuTemplate.content.cloneNode(true));
     //this.tableHTML = this.getAttribute("data-table-html") || defaultTableHTML;
     //this.shadowRoot.querySelector("h5.title").innerText = this.getAttribute("lig");
     this.shadowRoot.querySelector(

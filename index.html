@@ -5,8 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--
     <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.5.0/webcomponents-bundle.js"></script>
+    -->
     <script defer src="./puanDurumu.js"></script>
+    <script defer src="./dovizKuru.js"></script>
+
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" />    <title>KOD8 Web Components Demo</title>
 </head>
@@ -38,10 +42,16 @@
             <h3>Fikstur</h3>
         </div>
     </section>
+    <section class="doviz">
+        <div class="componenetContainer">
+            <doviz-kuru></doviz-kuru>
+        </div>
+    </section>
 
     <section class="hava"></section>
 
     <section class="namaz"></section>
+
 
 
 </body>
@@ -89,7 +99,8 @@
 
 
 <script>
-
+ document.head.innerHTML += `<link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&display=swap" rel="stylesheet">`;
 //document.querySelector("puan-durumu").setAttribute("data-table-html", '<h3> hello </h3>')
 /*
 fetch("https://raw.githubusercontent.com/kod8/haber8-scraper/main/data/spor/spor.json")
