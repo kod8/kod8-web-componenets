@@ -12,6 +12,7 @@ puanDurumuTemplate.innerHTML = `
         --main: #36308aff;
         --dark: #686778ff;
         --darker: #2e2c4aff;
+
         --gr1:linear-gradient(90deg, var(--darker), var(--main));
         --gr2:linear-gradient(25deg, var(--light), var(--main));
         --gr3:linear-gradient(90deg, var(--light), var(--lighter));
@@ -19,13 +20,14 @@ puanDurumuTemplate.innerHTML = `
 
         display:block;
         font-size:12px;
-        border-radius:5px;
+        border-radius:10px;
         color:var(--main);
         background:var(--lighter);
         padding:1em;
-		background:var(--gr2);
-		height:100%;
+    		background:var(--gr2);
     } 
+
+    
     
     .puanDurumuHTML{
         width:100%;
@@ -44,6 +46,8 @@ puanDurumuTemplate.innerHTML = `
     caption{
         background:var(--darker);
         color:var(--lighter);
+        border-radius: 10px 10px 0 0;
+        letter-spacing:2px;
     }
 
     caption h2{
@@ -149,7 +153,6 @@ puanDurumuTemplate.innerHTML = `
 }
 		
 </style>
-<h5 class = "title"> </h5>
 
 <div class="puanDurumuHTML">
     
@@ -164,9 +167,7 @@ class PuanDurumu extends HTMLElement {
     this.shadowRoot.appendChild(puanDurumuTemplate.content.cloneNode(true));
     //this.tableHTML = this.getAttribute("data-table-html") || defaultTableHTML;
     //this.shadowRoot.querySelector("h5.title").innerText = this.getAttribute("lig");
-    this.shadowRoot.querySelector(
-      ".puanDurumuHTML"
-    ).innerHTML = defaultTableHTML;
+    this.shadowRoot.querySelector(".puanDurumuHTML").innerHTML = defaultTableHTML;
 
     this.setTableHTML = this.setTableHTML.bind(this);
   }
@@ -175,6 +176,9 @@ class PuanDurumu extends HTMLElement {
     //this.tableHTML = this.getAttribute("data-table-html") || defaultTableHTML;
     this.shadowRoot.querySelector(".puanDurumuHTML").classList.add("loading");
     this.fetchTableHTML(this.getAttribute("lig"));
+    if(this.getAttribute("theme")){
+      this.setTheme(this.getAttribute("theme"));
+    }
     //document.head.innerHTML += `<link rel="preconnect" href="https://fonts.gstatic.com"><link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&display=swap" rel="stylesheet">`;
   }
 
@@ -183,12 +187,16 @@ class PuanDurumu extends HTMLElement {
 }
 
 static get observedAttributes() {
-	return ['hl', 'lig'];
+	return ['hl', 'lig', 'theme'];
   }
  
  attributeChangedCallback(name,oldVal,newVal) {
 	if(name == "hl") this.setHighlight();
-	else if(name == "lig") this.fetchTableHTML(newVal)
+  else if(name == "lig") this.fetchTableHTML(newVal);
+  else if(name == "theme") {
+    this.setTheme(newVal);
+  }
+  
 }
 
   fetchTableHTML = function (lig) {
@@ -218,6 +226,54 @@ static get observedAttributes() {
         });
     }
   };
+
+  setTheme = function (themeID){
+    if(this.themes[themeID]){
+      for(var color in this.themes[themeID]){
+        this.style.setProperty(color, this.themes[themeID][color])
+      }
+    }
+  
+  }
+
+  themes = {
+    "t1":{
+      "--darker": "#27282E",
+      "--dark": "#2E334A",
+     "--main": "#0D1B61",
+     "--light": "#6F81DE",
+      "--lighter": "#F5F7FF"
+    },
+    "t2":{
+      "--darker": "#00171F",
+      "--dark": "#003459",
+     "--main": "#007EA7",
+     "--light": "#00A7E1",
+      "--lighter": "#FFFFFF"
+    }
+    ,
+    "t3":{
+      "--darker": "#142916",
+      "--dark": "#3B7A40",
+     "--main": "#188B22",
+     "--light": "#7AE183",
+      "--lighter": "#B5E3BA"
+    }, 
+    "t4":{
+      "--darker": "#6F81DE",
+      "--dark": "#0D1B61",
+     "--main": "#F5F7FF",
+     "--light": "#2E334A",
+      "--lighter": "#27282E"
+    },
+    "t5":{
+      "--darker": "#76D076",
+      "--dark": "#3DF53D",
+     "--main": "#98dc98",
+     "--light": "#0B470B",
+      "--lighter": "#0B1E0B"
+    }
+  }
 }
 
 var defaultTableHTML = 
@@ -248,3 +304,5 @@ var defaultTableHTML =
 `
 
 window.customElements.define("puan-durumu", PuanDurumu)
+
+ 
