@@ -114,29 +114,34 @@ dovizKuruTemplate.innerHTML = `
 
 /*LOADING */
 
-.loading birimler div .value
+.loading.birimler div .value
  {
 	width: 100%;
-	color: var(--lighter);
+	color: var(--light);
 	position: relative;
 	overflow: hidden;
 }
 
-.loading birimler div .value::before
+.loading.birimler div .value:after
  {
 	content: "";
 	width: 75%;
-	height: 50%;
+	height: 100%;
 	position: absolute;
 	left: 0;
-	top: 25%;
+  opacity:.75;
+  color:white;
 	background: linear-gradient(
 		to right,
-		var(--light) 0%,
-      var(--main) 50%,
-      var(--light) 100%
+		  transparent 0%,
+      var(--darker) 50%,
+      transparent 100%
 	);
-	animation: placeholder 1s ease-in both infinite;
+	animation: placeholder .75s ease-in both infinite;
+}
+
+.loading.birimler div .value, .loading.birimler div .value:before{
+  color:var(--main)
 }
 
 @keyframes placeholder {
@@ -149,28 +154,27 @@ dovizKuruTemplate.innerHTML = `
 }		
 </style>
 
-<h5 class = "title"> DÖVİZ KURU </h5>
-
+<h5 class = "title">DÖVİZ KURU</h5>
 <div class="birimler">
     <div class="dolar">
       <div class="title">Dolar</div>
-      <div class="value alis">---,---</div>
-      <div class="value satis">---,---</div>
+      <div class="value alis">■.■■</div>
+      <div class="value satis">■.■■</div>
     </div>
     <div class="euro">
       <div class="title">Euro</div>
-      <div class="value alis">---,---</div>
-      <div class="value satis">---,---</div>
+      <div class="value alis">■.■■</div>
+      <div class="value satis">■.■■</div>
     </div>
     <div class="gram">
       <div class="title">Gram Altın</div>
-      <div class="value alis">---,---</div>
-      <div class="value satis">---,---</div>
+      <div class="value alis">■.■■</div>
+      <div class="value satis">■.■■</div>
     </div>
     <div class="ceyrek">
       <div class="title">Çeyrek Altın</div>
-      <div class="value alis">---,---</div>
-      <div class="value satis">---,---</div>
+      <div class="value alis">■.■■</div>
+      <div class="value satis">■.■■</div>
     </div>
 
 </div>
@@ -222,7 +226,6 @@ class dovizKuru extends HTMLElement {
   };
 
   renderData = function (data) {
-    console.log(this.dolarAlisHTML)
     var alisData = [data["ABD DOLARI"]["Alış"] ,data["EURO"]["Alış"], data["Gram Altın"]["Alış"], data["Çeyrek Altın"]["Alış"]]
     var alisHTML = [this.dolarAlisHTML, this.euroAlisHTML, this.gramAlisHTML, this.ceyrekAlisHTML]
     alisHTML.forEach((e,i)=>e.innerHTML = alisData[i] )

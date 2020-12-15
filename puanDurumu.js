@@ -4,7 +4,6 @@ puanDurumuTemplate.innerHTML = `
 <style>
    :host * {
     font-family: 'Changa', sans-serif;
-
    }
 
     :host{
@@ -40,7 +39,6 @@ puanDurumuTemplate.innerHTML = `
         border-collapse: collapse;
         width:100%;
         line-height:1.2;
-
     }
 
     caption{
@@ -68,6 +66,11 @@ puanDurumuTemplate.innerHTML = `
         margin:1em;
         font-weight:400;
     }
+
+    table tr td:last-child{
+      padding-right:1em;
+      font-weight:600;
+  }
 
     table tbody tr{
         background:var(--gr4);
@@ -125,12 +128,13 @@ puanDurumuTemplate.innerHTML = `
 	height: 50%;
 	position: absolute;
 	left: 0;
-	top: 25%;
+  top: 25%;
+  opacity:.25;
 	background: linear-gradient(
 		to right,
-		var(--light) 0%,
+		transparent 0%,
       var(--main) 50%,
-      var(--light) 100%
+      transparent 100%
 	);
 	animation: placeholder 1s ease-in both infinite;
 }
@@ -171,12 +175,7 @@ class PuanDurumu extends HTMLElement {
     //this.tableHTML = this.getAttribute("data-table-html") || defaultTableHTML;
     this.shadowRoot.querySelector(".puanDurumuHTML").classList.add("loading");
     this.fetchTableHTML(this.getAttribute("lig"));
-
-    //this.innerHTML = this.tableHTML;
-
-    //this.shadowRoot.querySelector(".puanDurumuHTML").innerHTML += this.getAttribute("data-table-html");
-    document.head.innerHTML += `<link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&display=swap" rel="stylesheet">`;
+    //document.head.innerHTML += `<link rel="preconnect" href="https://fonts.gstatic.com"><link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&display=swap" rel="stylesheet">`;
   }
 
   disconnectedCallback() {
@@ -219,8 +218,6 @@ static get observedAttributes() {
         });
     }
   };
-
-
 }
 
 var defaultTableHTML = 
