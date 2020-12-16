@@ -2,11 +2,9 @@ const puanDurumuTemplate = document.createElement("template");
 puanDurumuTemplate.innerHTML = `
 <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
-   :host * {
-    font-family: 'Changa', sans-serif;
-   }
+      :host{
+      font-family: 'Changa', sans-serif;
 
-    :host{
         --light: #b0ade0;
         --lighter: #c3c1e6ff;
         --main: #36308aff;
@@ -18,6 +16,7 @@ puanDurumuTemplate.innerHTML = `
         --gr3:linear-gradient(90deg, var(--light), var(--lighter));
         --gr4:linear-gradient(10deg, var(--light), var(--lighter));
 
+        --cell-pad: 2.5px;
         display:block;
         font-size:12px;
         border-radius:10px;
@@ -80,23 +79,23 @@ puanDurumuTemplate.innerHTML = `
         background:var(--gr4);
     }
 
+    table tr:nth-child(2n){
+        color:var(--darker);
+        background:var(--lighter)
+    }
+
     table tbody tr.hl{
       background:var(--main);
       color:var(--lighter);
    }
 
-    table tr:nth-child(2n){
-        color:var(--darker);
-        background:var(--lighter);
-
-    }
     table tbody tr:hover{
       background:var(--main);
       color:var(--lighter);
   }
 
 
-    table tr td,table tr th{
+    table tr td, table tr th{
         text-align: center;
         cursor:pointer;
     }
@@ -111,8 +110,7 @@ puanDurumuTemplate.innerHTML = `
     }
 
     table td{
-        padding:5px 2.5px;
-
+        padding:var(--cell-pad) 2.5px;
     }
 
 /*LOADING */
@@ -233,7 +231,6 @@ static get observedAttributes() {
         this.style.setProperty(color, this.themes[themeID][color])
       }
     }
-  
   }
 
   themes = {
