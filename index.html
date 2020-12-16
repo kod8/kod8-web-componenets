@@ -53,14 +53,29 @@
         </div>
     </section>
     <section class="doviz">
-        <div class="componenetContainer">
+        <h3>Döviz</h3>
+
+        <div class="componenetContainer" style="width: 55%;height: 200px" >
             <doviz-kuru></doviz-kuru>
         </div>
+        <div class="componenetContainer" style="width: 200px;height: 600px">
+            <doviz-kuru></doviz-kuru>
+        </div>
+        <div class="componenetContainer" style="width: 400px;height: 300px">
+            <doviz-kuru></doviz-kuru>
+        </div>
+       
     </section>
 
-    <section class="hava"></section>
+    <section class="hava">
+        <h3>Hava</h3>
 
-    <section class="namaz"></section>
+    </section>
+
+    <section class="namaz">
+        <h3>Namaz</h3>
+
+    </section>
 
 </body>
 
@@ -74,6 +89,19 @@
         background-color: rgb(209, 209, 209);
         padding: 1em;
         margin:5px 0;
+
+    }
+
+    section > h3{
+        color:grey;
+        font-family: Changa;
+        letter-spacing: 25px;
+        font-weight: 800;
+        font-size: 80px;
+        margin:0;
+        text-transform: uppercase;
+        padding: .25em 1em;
+        width:100%;
     }
 
     .item{
@@ -85,9 +113,16 @@
     }
 
     .item > h3{
-        writing-mode: vertical-rl;
-        text-orientation: upright;
-        font-size: 25px;
+        color:grey;
+        writing-mode: vertical-lr;
+        font-family: Changa;
+        letter-spacing: 5px;
+        font-weight: 800;
+        font-size: 40px;
+        transform:rotateZ(180deg);
+        margin:0;
+        height:200px;
+
     }
 
     .item .componenetContainer {
@@ -100,6 +135,17 @@
     table{
         width:100%;
         background:blue!important;
+    }
+
+    .doviz{
+        display:flex;
+        flex-wrap: wrap;
+        padding:1em;
+        justify-content: center;
+    }
+
+    .doviz .componenetContainer{
+        padding:10px;
     }
 
 </style>

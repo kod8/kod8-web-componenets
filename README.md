@@ -24,7 +24,6 @@ Kapsayıcısının genişliğini alır.
 	hl="Yeni Malatya" 
 	theme="t1" 
 	style="--cell-pad:12px; font-size:24px; font-family:arial; --darker:#6F81DE; --dark:#0D1B61; --main:#F5F7FF; --light:#2E334A; --lighter:#27282E;">
-
 </puan-durumu>
 ```
 
@@ -46,7 +45,7 @@ Kapsayıcısının genişliğini alır.
 
 - **`style`** : Temadaki bazı değişkenleri değiştirmek için kullanılabilir.
 	- Renk değişkenleri: 6 ton (Ana, Açık, Daha açık, Koyu, Daha koyu) `--main` `--light` , `--lighter`, `--dark` , `--darker`
-	- Hücre üst boşluğu: `--cell-pad`;
+	- Hücre üst boşluğu: `--cell-pad`
 	- Diğer CSS değerleri: `font-size` , `font-family`
 
 ---
