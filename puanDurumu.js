@@ -168,12 +168,15 @@ class PuanDurumu extends HTMLElement {
     this.shadowRoot.querySelector(".puanDurumuHTML").innerHTML = defaultTableHTML;
 
     this.setTableHTML = this.setTableHTML.bind(this);
+    this.setTableHTMLFromJSON = this.setTableHTMLFromJSON.bind(this);
+
   }
 
   connectedCallback() {
     //this.tableHTML = this.getAttribute("data-table-html") || defaultTableHTML;
     this.shadowRoot.querySelector(".puanDurumuHTML").classList.add("loading");
-    this.fetchTableHTML(this.getAttribute("lig"));
+    //this.fetchTableHTML(this.getAttribute("lig"))
+    this.fetchTableJSON(this.getAttribute("lig"));
     if(this.getAttribute("theme")){
       this.setTheme(this.getAttribute("theme"));
     }
@@ -190,7 +193,8 @@ static get observedAttributes() {
  
  attributeChangedCallback(name,oldVal,newVal) {
 	if(name == "hl") this.setHighlight();
-  else if(name == "lig") this.fetchTableHTML(newVal);
+  //else if(name == "lig") this.fetchTableHTML(newVal);
+  else if(name == "lig") this.fetchTableJSON(newVal);
   else if(name == "theme") {
     this.setTheme(newVal);
   }
@@ -212,6 +216,49 @@ static get observedAttributes() {
       .classList.remove("loading");
     this.setHighlight();
   };
+
+  fetchTableJSON = function (lig) {
+    fetch(`https://raw.githubusercontent.com/kod8/haber8-scraper/main/data/spor/json/puan/${lig}.json`)
+      .then(function (res) {
+        return res.json();
+      })
+      .then(this.setTableHTMLFromJSON);
+  };
+
+  //Render by using json data
+
+  setTableHTMLFromJSON = function (data) {
+    var html = "";
+    var table = document.createElement("table");
+    table.innerHTML = `
+    <caption><h2>${data.tableTitle}</h2></caption>
+    <thead>
+      <tr>
+        ${
+          data.columns.map(col=>{
+            return `<th><abbr title=${this.abbr[col]}>${col}</abbr></th>`
+          }).join("\n")
+        } 
+      </tr>
+    </thead>
+     <tbody>
+    </tbody>
+  `;
+
+    data.list.forEach(function(team){
+      var row = document.createElement("tr");
+      var trInner = "";
+      data.columns.forEach((col)=>{
+        var cell = `<td>${team[col]}</td>`
+        trInner+=cell;
+      })
+      row.innerHTML = trInner;
+      table.querySelector("tbody").appendChild(row);
+    })
+    html=table.outerHTML
+    this.setTableHTML(html);
+  };
+
 
   setHighlight = function () {
     if (this.getAttribute("hl")) {
@@ -270,6 +317,19 @@ static get observedAttributes() {
      "--light": "#0B470B",
       "--lighter": "#0B1E0B"
     }
+  }
+
+  abbr = {
+    "S":"Sıra",
+    "Takım":"Takım",
+    "O":"Oynadığı Maç",
+    "G":"Galibiyet",
+    "B":"Beraberlik",
+    "M":"Mağlubiyet",
+    "A":"Attığı Gol",
+    "Y":"Yediği Gol",
+    "Av":"Averaj",
+    "P":"Puan"
   }
 }
 
