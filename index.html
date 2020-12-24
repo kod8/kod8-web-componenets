@@ -10,12 +10,16 @@
     -->
     <script defer src="./puanDurumu.js"></script>
     <script defer src="./dovizKuru.js"></script>
+    <script defer src="./havaDurumu.js"></script>
+
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" />    <title>KOD8 Web Components Demo</title>
 </head>
 
 <body>
     <h1>KOD8 Web Components Demo</h1>
+    <!--
+
     
     <section class="spor">
         <h3>Spor</h3>
@@ -66,9 +70,17 @@
         </div>
        
     </section>
-
+-->
     <section class="hava">
         <h3>Hava</h3>
+        <div class="componenetContainer" style="width: 300px;">
+            <hava-durumu city="81" theme="mavi"></hava-durumu>
+
+        </div>
+    <div class="componenetContainer" style="width: 800px;">
+        <hava-durumu city="17" theme="17"></hava-durumu>
+    </div>
+
 
     </section>
 
@@ -85,6 +97,8 @@
     body{
         width:100vw;
     }
+
+    
     section{
         background-color: rgb(209, 209, 209);
         padding: 1em;
@@ -146,6 +160,10 @@
 
     .doviz .componenetContainer{
         padding:10px;
+    }
+
+    .hidden{
+        display: none;
     }
 
 </style>
