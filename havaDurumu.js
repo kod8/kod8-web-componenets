@@ -11,25 +11,146 @@ havaDurumuTemplate.innerHTML = `
         --lighter: hsl(0, 0%, 100%);;
         --hue:220;
         
-        --light: hsl(var(--hue), 23%, 91%);
+        --light: hsl(var(--hue), 43%, 81%);
         --main: hsl(var(--hue), 77%, 74%);
         --dark: hsl(var(--hue), 77%, 34%);
         --darker: hsl(var(--hue), 77%, 17%);
-        --gr1:linear-gradient(180deg, var(--darker), var(--main));
+        --gr1:linear-gradient(180deg, var(--dark), var(--darker));
         --gr2:linear-gradient(180deg, var(--light), var(--main));
         --gr3:linear-gradient(0deg, var(--darker), transparent);
+        --gr4:linear-gradient(0deg, var(--dark), transparent);
 
 
-        display:block;
-        font-size:14px;
-        border-radius:5px;
+        display:flex;
+        flex-direction:column;
+        align-items:stretch;
+        justify-content:space-between;
+        font-size:18px;
+        border-radius:25px;
         color:var(--light);
         background:var(--darker);
-        padding:1em 2em;
-		  background:var(--gr1);
+		    background:var(--gr1);
         height:100%;
-        border-radius:5px;
     } 
+
+    .city{
+      margin:2em 2em 1em 2em;
+      background: var(--darker);
+    font-size: 1em;
+    font-weight: 800;
+    color: var(--light);
+    letter-spacing: 7.5px;
+    padding: 0 1em;
+    line-height: 13px;
+    border: none;
+    border-radius: 5em;
+
+    }
+    .today{
+      display:flex;
+      flex-direction:column;
+      margin:0 2em;
+      align-items:stretch;
+      justify-content:space-between;
+      flex-grow:2;
+    }
+
+    .days{
+      display:flex;
+      align-items:stretch;
+      justify-content:space-between;
+      margin: 1em 2em 0 2em;
+
+    }
+
+    .today .row{
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+    }
+
+    .today .degree{
+      font-size:5em;
+      font-weight:800;
+      background: -webkit-linear-gradient(var(--lighter), transparent);
+     
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .today .condition{
+      font-size:1.25em;
+      font-weight:300;
+      margin-top:-2em;
+      color:var(--lighter);
+    }
+
+    .today .icon{
+      width:7.5em;
+    }
+
+    .days .item {
+      padding:1em 1em;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:space-around;
+      background:var(--gr4);
+      margin:0 1em;
+
+    }
+
+    .days .item .dayName{
+      font-size:1.25em;
+    }
+
+    .days .item .icon{
+      width:2.25em;
+    }
+
+    .days .item .maxDegree, .days .item .minDegree{
+      font-size:1.25em;
+      font-weight:600;
+    }
+    .days .item .maxDegree{
+      color:var(--lighter);
+    }
+
+    .days .item .minDegree{
+      color:var(--light);
+    }
+
+    .degree, .minDegree, .maxDegree {
+      position:relative;
+    }
+
+    .degree:after {
+      content:"c°";
+      font-size:.5em;
+      font-weight:400;
+      position:absolute;
+      top:0;
+      background: -webkit-linear-gradient(var(--lighter), transparent);
+     
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .minDegree:after, .maxDegree:after {
+      content:"c°";
+      font-size:.5em;
+      font-weight:400;
+      position:absolute;
+     
+    }
+
+
+
+    
+
+
+
+
 
     
 
@@ -78,11 +199,11 @@ havaDurumuTemplate.innerHTML = `
 <select class="city"></select>
 
 <div class="today">
-    <div class="detail">
+    <div class="row">
         <div class="degree">■■</div>
-        <div class="condition">■■■ ■■■■■</div>
+        <div class="icon"></div>
     </div>
-    <div class="icon"></div>
+    <div class="condition">■■■ ■■■■■</div>
 </div>
 
 <div class="days">
@@ -120,8 +241,8 @@ class havaDurumu extends HTMLElement {
 
     this.citySelectElement = this.shadowRoot.querySelector("select.city");
 
-    this.todayDegreeElement = this.shadowRoot.querySelector(".today .detail .degree") ;
-    this.todayConditionElement = this.shadowRoot.querySelector(".today .detail .condition") ;
+    this.todayDegreeElement = this.shadowRoot.querySelector(".today .degree") ;
+    this.todayConditionElement = this.shadowRoot.querySelector(".today .condition") ;
     this.todayIconElement = this.shadowRoot.querySelector(".today .icon");
     this.otherDaysElement = this.shadowRoot.querySelectorAll(".days .item");
 
