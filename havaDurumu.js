@@ -298,7 +298,8 @@ fetchData = function () {
    for(var plate in data){
      this.cities[plate].hava = data[plate].durum;
    }
-   this.renderCity(localStorage.getItem("weatherCity"))
+   var city = localStorage.getItem("weatherCity") || this.getAttribute("city") || "1";
+   this.renderCity(city);
   };
 
   renderCity = function (plate){
