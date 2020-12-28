@@ -405,10 +405,14 @@ fetchData = function () {
         icon: "4",
         general: "rainy",
      },
-     "Gök Gürültülü Sağanak Yağışlı": {
+     "Gökgürültülü Sağanak Yağışlı": {
         icon: "5",
         general: "thunder",
      },
+     "Kuvvetli Sağanak Yağışlı": {
+      icon: "4",
+      general: "rainy",
+    },
      "Kar Yağışlı": {
         icon: "6",
         general: "snow",

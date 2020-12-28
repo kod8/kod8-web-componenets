@@ -67,3 +67,27 @@ Kapsayıcısının genişliğini alır.
 
 
 ---
+
+
+# __Hava Durumu__ 
+Sayfanın `head` bölümüne komponenti aşağıdaki gibi ekleyin. 
+
+```html
+    <script defer src="https://raw.githubusercontent.com/kod8/kod8-web-componenets/main/havaDurumu.js"></script>
+```
+
+## Örnek Kullanım
+Kapsayıcısının genişliğini alır. 
+
+```html
+<hava-durumu city="81" theme="210"></hava-durumu>
+```
+
+## Attributes
+- **`city`**: İlk olarak hava durumu gösterilmesi istenen şehrin plaka kodu
+	
+- **`theme`**: 0 ve 255 arası renk değeri
+
+![img](./misc/hava.png)
+
+---
