@@ -22,15 +22,15 @@ havaDurumuTemplate.innerHTML = `
 
 
         display:flex;
-        flex-direction:column;
+        flex-direction:row;
+        flex-wrap:wrap;
         align-items:stretch;
-        justify-content:space-between;
+        justify-content:center;
         font-size:18px;
         border-radius:25px;
         color:var(--light);
         background:var(--darker);
 		    background:var(--gr1);
-        height:100%;
     } 
 
     .city{
@@ -45,11 +45,12 @@ havaDurumuTemplate.innerHTML = `
     border: none;
     border-radius: 5em;
 
+
     }
     .today{
       display:flex;
       flex-direction:column;
-      margin:0 2em;
+      margin:.5em 2em;
       align-items:stretch;
       justify-content:space-between;
       flex-grow:2;
@@ -59,7 +60,7 @@ havaDurumuTemplate.innerHTML = `
       display:flex;
       align-items:stretch;
       justify-content:space-between;
-      margin: 1em 2em 0 2em;
+      margin:auto;
 
     }
 
@@ -81,7 +82,7 @@ havaDurumuTemplate.innerHTML = `
     .today .condition{
       font-size:1.25em;
       font-weight:300;
-      margin-top:-2em;
+      margin-top:-1em;
       color:var(--lighter);
     }
 
@@ -144,19 +145,9 @@ havaDurumuTemplate.innerHTML = `
      
     }
 
-
-
-    
-
-
-
-
-
-    
-
 /*LOADING */
 
-.loading.birimler div .value
+:host(.loading) .val
  {
 	width: 100%;
 	color: var(--light);
@@ -164,26 +155,31 @@ havaDurumuTemplate.innerHTML = `
 	overflow: hidden;
 }
 
-.loading.birimler div .value:after
+:host(.loading) .val:before
  {
 	content: "";
-	width: 75%;
+	width: 50%;
 	height: 100%;
 	position: absolute;
 	left: 0;
   opacity:.75;
-  color:white;
+  color:var(--dark);
 	background: linear-gradient(
 		to right,
-		  transparent 0%,
-      var(--darker) 50%,
+    transparent 0%,
+      var(--light) 50%,
       transparent 100%
 	);
 	animation: placeholder .75s ease-in both infinite;
 }
 
-.loading.birimler div .value, .loading.birimler div .value:before{
-  color:var(--main)
+:host(.loading) .val, :host(.loading) .val:before{
+  color:var(--dark);
+  opacity:.5;
+}
+
+:host(.loading) .degree:after, :host(.loading) .minDegree:after, :host(.loading) .maxDegree:after{
+  content:"";
 }
 
 @keyframes placeholder {
@@ -195,38 +191,38 @@ havaDurumuTemplate.innerHTML = `
 	}
 }		
 </style>
+<div><select class="city"></select></div>
 
-<select class="city"></select>
 
 <div class="today">
     <div class="row">
-        <div class="degree">■■</div>
-        <div class="icon"></div>
+        <div class="val degree">■■</div>
+        <div class="val icon"></div>
     </div>
-    <div class="condition">■■■ ■■■■■</div>
+    <div class="val condition">■■■ ■■■■■</div>
 </div>
 
 <div class="days">
     <div class="item">
-        <div class="dayName">■■</div>
-        <div class="icon"></div>
-        <div class="condition"></div>
-        <div class="maxDegree">■■</div>
-        <div class="minDegree">■■</div>
+        <div class="val dayName">■■</div>
+        <div class="val icon"></div>
+        <div class="val condition"></div>
+        <div class="val maxDegree">■■</div>
+        <div class="val minDegree">■■</div>
     </div>
     <div class="item">
-        <div class="dayName">■■</div>
-        <div class="icon"></div>
-        <div class="condition"></div>
-        <div class="maxDegree">■■</div>
-        <div class="minDegree">■■</div>
+        <div class="val dayName">■■</div>
+        <div class="val icon"></div>
+        <div class="val condition"></div>
+        <div class="val maxDegree">■■</div>
+        <div class="val minDegree">■■</div>
     </div>
     <div class="item">
-        <div class="dayName">■■</div>
-        <div class="icon"></div>
-        <div class="condition"></div>
-        <div class="maxDegree">■■</div>
-        <div class="minDegree">■■</div>
+        <div class="val dayName">■■</div>
+        <div class="val icon"></div>
+        <div class="val condition"></div>
+        <div class="val maxDegree">■■</div>
+        <div class="val minDegree">■■</div>
     </div>
 </div>
 
@@ -245,7 +241,7 @@ class havaDurumu extends HTMLElement {
     this.todayConditionElement = this.shadowRoot.querySelector(".today .condition") ;
     this.todayIconElement = this.shadowRoot.querySelector(".today .icon");
     this.otherDaysElement = this.shadowRoot.querySelectorAll(".days .item");
-
+    this.dayOrNight = ((new Date()).getHours())-6 < 12 ? "day" : "night";
 
     this.handleData = this.handleData.bind(this);
     this.handleSelectInput = this.handleSelectInput.bind(this);
@@ -285,7 +281,7 @@ attributeChangedCallback(name,oldVal,newVal) {
   
 }
 
-fetchData = function () {
+fetchData() {
   const url = `https://raw.githubusercontent.com/kod8/haber8-scraper/main/data/hava/hava_trt.json`
   fetch(url)
     .then(function (res) {
@@ -294,7 +290,7 @@ fetchData = function () {
     .then(this.handleData);
 };
 
-  handleData = function (data) {
+  handleData(data) {
    for(var plate in data){
      this.cities[plate].hava = data[plate].durum;
    }
@@ -302,7 +298,7 @@ fetchData = function () {
    this.renderCity(city);
   };
 
-  renderCity = function (plate){
+  renderCity(plate){
     this.classList.add("loading");
 
     var data = this.cities[plate].hava || "load";
@@ -312,7 +308,7 @@ fetchData = function () {
     this.todayDegreeElement.innerText = Math.floor(data[0].now)
     this.todayConditionElement.innerText = data[0].condition;
     var iconId = this.conditions[data[0].condition].icon || "1";
-    this.todayIconElement.innerHTML = this.weatherIcons[iconId]["day"];
+    this.todayIconElement.innerHTML = this.weatherIcons[iconId][this.dayOrNight];
     this.otherDaysElement.forEach((dayElement,index)=>{
       var day =  data[index].date.split(" ").reverse()[0];
       dayElement.querySelector(".dayName").innerText = this.days[day];
@@ -326,7 +322,7 @@ fetchData = function () {
     this.classList.remove("loading");
   }
 
-  setTheme = function (themeID){
+  setTheme(themeID){
     if(this.themes[themeID]){
         this.style.setProperty("--hue", this.themes[themeID])
     }
@@ -335,7 +331,7 @@ fetchData = function () {
     }
   }
 
-  handleSelectInput = function(e){
+  handleSelectInput(e){
     if(this.getAttribute("city")!==e.target.value) 
     {
       this.setAttribute("city", e.target.value);

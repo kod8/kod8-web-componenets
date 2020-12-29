@@ -188,53 +188,83 @@ class dovizKuru extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(dovizKuruTemplate.content.cloneNode(true));
 
-    this.dolarAlisHTML = this.shadowRoot.querySelector(".birimler .dolar .value.alis");
+    this.dolarAlisHTML = this.shadowRoot.querySelector(
+      ".birimler .dolar .value.alis"
+    );
 
-    this.euroAlisHTML = this.shadowRoot.querySelector(".birimler .euro .value.alis") ;
-    this.gramAlisHTML = this.shadowRoot.querySelector(".birimler .gram .value.alis") ;
-    this.ceyrekAlisHTML = this.shadowRoot.querySelector(".birimler .ceyrek .value.alis") ;
+    this.euroAlisHTML = this.shadowRoot.querySelector(
+      ".birimler .euro .value.alis"
+    );
+    this.gramAlisHTML = this.shadowRoot.querySelector(
+      ".birimler .gram .value.alis"
+    );
+    this.ceyrekAlisHTML = this.shadowRoot.querySelector(
+      ".birimler .ceyrek .value.alis"
+    );
 
-    this.dolarSatisHTML = this.shadowRoot.querySelector(".birimler .dolar .value.satis");
-    this.euroSatisHTML = this.shadowRoot.querySelector(".birimler .euro .value.satis") ;
-    this.gramSatisHTML = this.shadowRoot.querySelector(".birimler .gram .value.satis") ;
-    this.ceyrekSatisHTML = this.shadowRoot.querySelector(".birimler .ceyrek .value.satis") ;
-
+    this.dolarSatisHTML = this.shadowRoot.querySelector(
+      ".birimler .dolar .value.satis"
+    );
+    this.euroSatisHTML = this.shadowRoot.querySelector(
+      ".birimler .euro .value.satis"
+    );
+    this.gramSatisHTML = this.shadowRoot.querySelector(
+      ".birimler .gram .value.satis"
+    );
+    this.ceyrekSatisHTML = this.shadowRoot.querySelector(
+      ".birimler .ceyrek .value.satis"
+    );
 
     this.renderData = this.renderData.bind(this);
-
   }
 
   connectedCallback() {
     //this.tableHTML = this.getAttribute("data-table-html") || defaultTableHTML;
     this.shadowRoot.querySelector(".birimler").classList.add("loading");
     this.fetchData();
-
-   
   }
 
-  disconnectedCallback() {
-   
-}
+  disconnectedCallback() {}
 
-  fetchData = function () {
-    const url = `https://finans.truncgil.com/today.json`
+  fetchData() {
+    const url = `https://finans.truncgil.com/today.json`;
     fetch(url)
       .then(function (res) {
         return res.json();
       })
       .then(this.renderData);
-  };
+  }
 
-  renderData = function (data) {
-    var alisData = [data["ABD DOLARI"]["Alış"] ,data["EURO"]["Alış"], data["Gram Altın"]["Alış"], data["Çeyrek Altın"]["Alış"]]
-    var alisHTML = [this.dolarAlisHTML, this.euroAlisHTML, this.gramAlisHTML, this.ceyrekAlisHTML]
-    alisHTML.forEach((e,i)=>e.innerHTML = alisData[i] )
-    var satisData = [data["ABD DOLARI"]["Satış"] ,data["EURO"]["Satış"], data["Gram Altın"]["Satış"], data["Çeyrek Altın"]["Satış"]];
-    var satisHTML = [this.dolarSatisHTML, this.euroSatisHTML, this.gramSatisHTML, this.ceyrekSatisHTML]
-    satisHTML.forEach((e,i )=>e.innerHTML = satisData[i] )
+  renderData(data) {
+    var alisData = [
+      data["ABD DOLARI"]["Alış"],
+      data["EURO"]["Alış"],
+      data["Gram Altın"]["Alış"],
+      data["Çeyrek Altın"]["Alış"],
+    ];
+    var alisHTML = [
+      this.dolarAlisHTML,
+      this.euroAlisHTML,
+      this.gramAlisHTML,
+      this.ceyrekAlisHTML,
+    ];
+    alisHTML.forEach((e, i) => (e.innerHTML = alisData[i]));
+    var satisData = [
+      data["ABD DOLARI"]["Satış"],
+      data["EURO"]["Satış"],
+      data["Gram Altın"]["Satış"],
+      data["Çeyrek Altın"]["Satış"],
+    ];
+    var satisHTML = [
+      this.dolarSatisHTML,
+      this.euroSatisHTML,
+      this.gramSatisHTML,
+      this.ceyrekSatisHTML,
+    ];
+    satisHTML.forEach((e, i) => (e.innerHTML = satisData[i]));
 
     this.shadowRoot.querySelector(".birimler").classList.remove("loading");
-  };
+  }
 }
 
 window.customElements.define("doviz-kuru", dovizKuru)

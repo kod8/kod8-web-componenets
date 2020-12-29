@@ -201,7 +201,7 @@ static get observedAttributes() {
   
 }
 
-  fetchTableHTML = function (lig) {
+  fetchTableHTML(lig) {
     fetch(`https://raw.githubusercontent.com/kod8/haber8-scraper/main/data/spor/html/puan/${lig}.html`)
       .then(function (res) {
         return res.text();
@@ -209,7 +209,7 @@ static get observedAttributes() {
       .then(this.setTableHTML);
   };
 
-  setTableHTML = function (html) {
+  setTableHTML(html) {
     this.shadowRoot.querySelector(".puanDurumuHTML").innerHTML = html;
     this.shadowRoot
       .querySelector(".puanDurumuHTML")
@@ -217,7 +217,7 @@ static get observedAttributes() {
     this.setHighlight();
   };
 
-  fetchTableJSON = function (lig) {
+  fetchTableJSON(lig) {
     fetch(`https://raw.githubusercontent.com/kod8/haber8-scraper/main/data/spor/json/puan/${lig}.json`)
       .then(function (res) {
         return res.json();
@@ -227,7 +227,7 @@ static get observedAttributes() {
 
   //Render by using json data
 
-  setTableHTMLFromJSON = function (data) {
+  setTableHTMLFromJSON(data) {
     var html = "";
     var table = document.createElement("table");
     table.innerHTML = `
@@ -260,7 +260,7 @@ static get observedAttributes() {
   };
 
 
-  setHighlight = function () {
+  setHighlight() {
     if (this.getAttribute("hl")) {
       var hl = this.getAttribute("hl");
       this.shadowRoot.querySelectorAll("tr td:nth-child(2)").forEach(function (team) {
@@ -272,7 +272,7 @@ static get observedAttributes() {
     }
   };
 
-  setTheme = function (themeID){
+  setTheme(themeID){
     if(this.themes[themeID]){
       for(var color in this.themes[themeID]){
         this.style.setProperty(color, this.themes[themeID][color])
