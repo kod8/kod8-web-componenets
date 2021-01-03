@@ -316,7 +316,46 @@ static get observedAttributes() {
      "--main": "#98dc98",
      "--light": "#0B470B",
       "--lighter": "#0B1E0B"
+    },
+    "gs":{
+      "--darker": "#ee0000",
+      "--dark": "#a6a2a2",
+     "--main": "#3b3b3b",
+     "--light": "#eb4040",
+      "--lighter": "#FFEB3B"
+    },
+
+    "fb":{
+      "--darker": "#130da3",
+      "--dark": "#b0b0b0",
+     "--main": "#0a0757",
+     "--light": "#f3f3f4",
+      "--lighter": "#f2ff57"
+    },
+    "ts":{
+      "--darker": "#810d3e",
+      "--dark": "#b0b0b0",
+     "--main": "#4f0827",
+     "--light": "#f3f3f4",
+      "--lighter": "#658ef4"
+    },
+    "bjk":{
+      "--darker": "#000000",
+      "--dark": "#b0b0b0",
+     "--main": "#1e1e1e",
+     "--light": "#f3f3f4",
+      "--lighter": "#a2a5ac"
+    },
+    "ds":{
+      "--darker": "#d9d9d9",
+      "--dark": "#b0b0b0",
+     "--main": "#ffffff",
+     "--light": "#020582",
+      "--lighter": "#aa0000"
     }
+    
+
+
   }
 
   abbr = {

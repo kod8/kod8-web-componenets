@@ -27,7 +27,7 @@ havaDurumuTemplate.innerHTML = `
         align-items:stretch;
         justify-content:center;
         font-size:18px;
-        border-radius:25px;
+        border-radius:15px;
         color:var(--light);
         background:var(--darker);
 		    background:var(--gr1);
@@ -406,6 +406,10 @@ fetchData() {
         general: "thunder",
      },
      "Kuvvetli Sağanak Yağışlı": {
+      icon: "4",
+      general: "rainy",
+    },
+    "Kuvvetli Gökgürültülü Sağanak Yağışlı": {
       icon: "4",
       general: "rainy",
     },
