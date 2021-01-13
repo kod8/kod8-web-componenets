@@ -381,6 +381,10 @@ fetchData() {
         icon: "10",
         general: "windy",
      },
+     "Toz veya Kum Fırtınası": {
+      icon: "10",
+      general: "windy",
+   },
      "Dolu": {
         icon: "11",
         general: "hail",
@@ -398,6 +402,10 @@ fetchData() {
         general: "rainy",
      },
      "Sağanak Yağışlı": {
+        icon: "4",
+        general: "rainy",
+     },
+     "Kuvvetli Yağmurlu": {
         icon: "4",
         general: "rainy",
      },
@@ -421,6 +429,10 @@ fetchData() {
         icon: "9",
         general: "snow",
      },
+     "Yoğun Kar Yağışlı": {
+      icon: "9",
+      general: "snow",
+   },
      "Karla Karışık Yağmurlu": {
         icon: "6",
         general: "snow",
