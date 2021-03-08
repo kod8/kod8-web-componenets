@@ -10,6 +10,7 @@
     -->
     <script defer src="./puanDurumu.js"></script>
     <script defer src="./dovizKuru.js"></script>
+    <script defer src="./dovizKuruMini.js"></script>
     <script defer src="./havaDurumu.js"></script>
     <script defer src="./havaDurumuMini.js"></script>
 
@@ -56,9 +57,12 @@
             <h3>Fikstur</h3>
         </div>
     </section>
-    <section class="doviz">
+    <section class="doviz" style="flex-direction:column;">
         <h3>Döviz</h3>
-
+        <div class="componenetContainer" style="width: 50%;" >
+            <doviz-kuru-mini></doviz-kuru-mini>
+        </div>
+        <br>
         <div class="componenetContainer" style="width: 55%;height: 200px" >
             <doviz-kuru></doviz-kuru>
         </div>

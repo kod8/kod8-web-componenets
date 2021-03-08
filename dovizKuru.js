@@ -224,7 +224,7 @@ class dovizKuru extends HTMLElement {
     this.fetchData();
   }
 
-  disconnectedCallback() {}
+  disconnectedCallback() { }
 
   fetchData() {
     const url = `https://finans.truncgil.com/today.json`;
