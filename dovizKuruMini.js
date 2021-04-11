@@ -203,7 +203,7 @@ class dovizKuruMini extends HTMLElement {
     disconnectedCallback() { }
 
     fetchData() {
-        const url = `https://cors.ogk.workers.dev/?http://api.tavcan.com/json/piyasalar`;
+        const url = `https://service.kod8.app/data/doviz/all.json`;
         fetch(url)
             .then(function (res) {
                 return res.json();
@@ -212,11 +212,12 @@ class dovizKuruMini extends HTMLElement {
     }
 
     renderData(data) {
+    data=data.trthaber;
         var valueData = [
-            data.filter(_=>_.adi=="DOLAR")[0]["deger"],
-            data.filter(_=>_.adi=="EURO")[0]["deger"],
-            data.filter(_=>_.adi=="ALTIN")[0]["deger"],
-            data.filter(_=>_.adi=="BIST")[0]["deger"]
+            data.dolar.value,
+            data.euro.value,
+            data.gram_altin.value,
+            data.bist.value,
         ];
         var valueHTML = [
             this.dolarHTML,
