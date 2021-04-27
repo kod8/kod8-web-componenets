@@ -320,9 +320,9 @@ class namazVaktiMini extends HTMLElement {
     }
     var next = this.getAttribute("ramazan") == "" ? this.vakitler[this.currentVakit].nextRamazan : this.vakitler[this.currentVakit].next
 
-    this.timerLabel.innerText = this.vakitler[next].label
+    this.timerLabel.innerText = this.vakitler[next].label + " Kalan"
     if (this.getAttribute("ramazan") == "" && next == "aksam") {
-      this.timerLabel.innerText = "İftar'a"
+      this.timerLabel.innerText = "İftar'a Kalan"
     }
 
 
