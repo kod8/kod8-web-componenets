@@ -43,17 +43,15 @@ havaDurumuMiniTemplate.innerHTML = `
     } 
 
     .city{
-      background: var(--darker);
       font-family: var(--family);
       font-size: 1.4em;
       font-weight: 800;
-    color: var(--light);
     padding:0 .5em;
     padding:0
     letter-spacing: 2.5px;
     line-height: 13px;
     border: none;
-    border-radius: 5em;
+    border-radius: 5px;
     margin-bottom:10px;
 
     }

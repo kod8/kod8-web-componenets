@@ -113,10 +113,8 @@ namazVaktiMiniTemplate.innerHTML = `
 
     
     .city{
-      background: var(--darker);
       font-size: 1.4em;
       font-weight: 800;
-    color: var(--light);
     padding:.5em 1em;
     padding:0;
     letter-spacing: 2.5px;
