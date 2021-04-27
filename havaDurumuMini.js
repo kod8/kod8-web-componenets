@@ -7,10 +7,14 @@ havaDurumuMiniTemplate.innerHTML = `
 <style>
    :host * {
     /*font-family: 'Changa', sans-serif;*/
+    font-family: var(--family);
+
    }
 
     :host{
-        --lighter: hsl(0, 0%, 100%);;
+        --lighter: hsl(0, 0%, 100%);
+        --family:"montserrat";
+
         --hue:220;
         
         padding:1em;
@@ -40,10 +44,11 @@ havaDurumuMiniTemplate.innerHTML = `
 
     .city{
       background: var(--darker);
-    font-size: 1em;
-    font-weight: 400;
+      font-family: var(--family);
+      font-size: 1.4em;
+      font-weight: 800;
     color: var(--light);
-    padding:0 1em;
+    padding:0 .5em;
     padding:0
     letter-spacing: 2.5px;
     line-height: 13px;
@@ -61,6 +66,7 @@ havaDurumuMiniTemplate.innerHTML = `
     }
 
     .today .row{
+      position:relative;
       display:flex;
       justify-content: space-between;
       align-items:center;
@@ -72,14 +78,14 @@ havaDurumuMiniTemplate.innerHTML = `
 
     .today .degree{
       font-size:2em;
-      font-weight:600;
+      font-weight:800;
       min-width:30%;
      color:var(--lighter);
     }
 
     .today .condition{
       font-size:1em;
-      font-weight:300;
+      font-weight:400;
       color:var(--lighter);
       flex-grow:2;
       text-align:end;
@@ -88,6 +94,10 @@ havaDurumuMiniTemplate.innerHTML = `
     .today .icon{
       width:2em;
       min-width:15%;
+      position:absolute;
+      left: -90px;
+    top: -45px;
+    width: 75px;
 
     }
 
@@ -112,7 +122,7 @@ havaDurumuMiniTemplate.innerHTML = `
 
     .days .item .maxDegree, .days .item .minDegree{
       font-size:1.25em;
-      font-weight:600;
+      font-weight:800;
     }
     .days .item .maxDegree{
       color:var(--lighter);

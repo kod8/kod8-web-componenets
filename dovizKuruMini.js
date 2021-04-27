@@ -6,7 +6,7 @@ dovizKuruMiniTemplate.innerHTML = `
 <style>
    :host * {
     /*font-family: 'Changa', sans-serif;*/
-
+    font-family: var(--family);
    }
 
     :host{
@@ -23,6 +23,9 @@ dovizKuruMiniTemplate.innerHTML = `
         --euro:block;
         --altin:block;
         --bist:block;
+
+        --family:"montserrat";
+        font-family: var(--family);
 
         display:block;
         font-size:12px;
@@ -58,7 +61,7 @@ dovizKuruMiniTemplate.innerHTML = `
 
     .birimler > div .title{
       font-size:1em;
-      font-weight:200;
+      font-weight:400;
       text-align:end;
     }
 
@@ -88,7 +91,7 @@ dovizKuruMiniTemplate.innerHTML = `
 
     .birimler > div .value{
       font-size:2em;
-      font-weight:600;
+      font-weight:800;
       color:var(--lighter);
       text-align:end;
       position:relative;

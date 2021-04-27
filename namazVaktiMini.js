@@ -9,10 +9,13 @@ namazVaktiMiniTemplate.innerHTML = `
    :host * {
       /*font-family: 'Manrope', sans-serif;*/
       /*font-family: 'Rajdhani', sans-serif;*/
+      font-family: var(--family);
     }
 
     :host{
       --detay:visible;
+      --family:"montserrat";
+
         --lighter: hsl(0, 0%, 100%);;
         --hue:220;
         padding:1em;
@@ -49,7 +52,7 @@ namazVaktiMiniTemplate.innerHTML = `
 
     .timerLabel{
       font-size:1.5em;
-      font-weight:200;
+      font-weight:400;
     }
 
     .timerValue{
@@ -111,8 +114,8 @@ namazVaktiMiniTemplate.innerHTML = `
     
     .city{
       background: var(--darker);
-    font-size: 1em;
-    font-weight: 400;
+      font-size: 1.4em;
+      font-weight: 800;
     color: var(--light);
     padding:.5em 1em;
     padding:0;
@@ -121,6 +124,7 @@ namazVaktiMiniTemplate.innerHTML = `
     border: none;
     border-radius: 5px;
     width:100%;
+        font-family: var(--family);
     }
 
 
