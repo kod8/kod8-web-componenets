@@ -1,9 +1,11 @@
 const dovizKuruMiniTemplate = document.createElement("template");
 dovizKuruMiniTemplate.innerHTML = `
+<!--
 <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&display=swap" rel="stylesheet">
+-->
 <style>
    :host * {
-    font-family: 'Changa', sans-serif;
+    /*font-family: 'Changa', sans-serif;*/
 
    }
 
@@ -17,6 +19,10 @@ dovizKuruMiniTemplate.innerHTML = `
         --gr2:linear-gradient(180deg, var(--light), var(--main));
         --gr3:linear-gradient(0deg, var(--darker), transparent);
 
+        --dolar:block;
+        --euro:block;
+        --altin:block;
+        --bist:block;
 
         display:block;
         font-size:12px;
@@ -73,6 +79,7 @@ dovizKuruMiniTemplate.innerHTML = `
       top: -25%;
       z-index: 0;
       background: -webkit-linear-gradient(var(--darker), transparent);
+      background: -webkit-linear-gradient(#ffffff66, transparent);
      
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -103,6 +110,22 @@ dovizKuruMiniTemplate.innerHTML = `
       color:var(--light);
       vertical-align:middle;
       padding-right:.5em;
+    }
+
+    .birimler .dolar{
+      display:var(--dolar);
+    }
+
+    .birimler .euro{
+      display:var(--euro);
+    }
+
+    .birimler .altin{
+      display:var(--altin);
+    }
+
+    .birimler .bist{
+      display:var(--bist);
     }
 
     

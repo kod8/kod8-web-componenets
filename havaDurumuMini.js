@@ -1,15 +1,20 @@
 const havaDurumuMiniTemplate = document.createElement("template");
+
 havaDurumuMiniTemplate.innerHTML = `
+<!-- 
 <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&display=swap" rel="stylesheet">
+-->
 <style>
    :host * {
-    font-family: 'Changa', sans-serif;
+    /*font-family: 'Changa', sans-serif;*/
    }
 
     :host{
         --lighter: hsl(0, 0%, 100%);;
         --hue:220;
+        
         padding:1em;
+        
         
         --light: hsl(var(--hue), 43%, 81%);
         --main: hsl(var(--hue), 77%, 74%);
@@ -26,7 +31,7 @@ havaDurumuMiniTemplate.innerHTML = `
         flex-wrap:wrap;
         align-items:stretch;
         justify-content:center;
-        font-size:14px;
+        font-size:12px;
         border-radius:10px;
         color:var(--light);
         background:var(--darker);
@@ -39,11 +44,12 @@ havaDurumuMiniTemplate.innerHTML = `
     font-weight: 400;
     color: var(--light);
     padding:0 1em;
+    padding:0
     letter-spacing: 2.5px;
     line-height: 13px;
     border: none;
     border-radius: 5em;
-
+    margin-bottom:10px;
 
     }
     .today{
@@ -65,14 +71,14 @@ havaDurumuMiniTemplate.innerHTML = `
     }
 
     .today .degree{
-      font-size:3em;
+      font-size:2em;
       font-weight:600;
       min-width:30%;
      color:var(--lighter);
     }
 
     .today .condition{
-      font-size:1.5em;
+      font-size:1em;
       font-weight:300;
       color:var(--lighter);
       flex-grow:2;

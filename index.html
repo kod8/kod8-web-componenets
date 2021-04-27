@@ -17,11 +17,85 @@
 
 
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" />    <title>KOD8 Web Components Demo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+        crossorigin="anonymous" />
+    <title>KOD8 Web Components Demo</title>
 </head>
 
 <body>
     <h1>KOD8 Web Components Demo</h1>
+
+    <section class="toplu">
+        <h3>Toplu</h3>
+        <div class="componenetContainer kod8Widgets">
+            <hava-durumu-mini city="81" theme="turkuaz"></hava-durumu-mini>
+            <doviz-kuru-mini></doviz-kuru-mini>
+            <namaz-vakti-mini city="81" theme="turkuaz" ramazan></namaz-vakti-mini>
+        </div>
+
+        <style>
+            .kod8Widgets {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: center;
+                width: 50vw !important;
+                background-color: var(--birincil) !important;
+                border-radius: 5px;
+                padding: 0;
+
+            }
+
+            .kod8Widgets span {
+                display: block;
+                background-color: rgba(216, 213, 213, 0.268);
+                width: 1px;
+                height: 35px;
+                border-radius: 1em;
+            }
+
+            hava-durumu-mini,
+            namaz-vakti-mini,
+            doviz-kuru-mini {
+                height: 35px;
+                padding: 1em;
+                border-radius: 5px;
+                font-size: 10px;
+            }
+
+            doviz-kuru-mini {
+                width: 250px;
+                display: flex;
+                --light: #ddd;
+                --lighter: #fff;
+                --main: var(--birincil);
+                --dark: var(--birincil);
+                --darker: var(--birincil);
+                --bist: none;
+            }
+
+
+            doviz-kuru-mini #shadow-root .bist {
+                display: none;
+            }
+
+            hava-durumu-mini,
+            namaz-vakti-mini {
+                --detay:hidden;
+                display: flex;
+                width: 125px;
+                --lighter: hsl(0deg 38% 93%);
+                --light: #eee;
+                --main: var(--birincil);
+                --darker: var(--birincil);
+                --gr1: var(--birincil);
+                --gr2: var(--birincil);
+                --gr3: var(--birincil);
+                --gr4: var(--birincil);
+            }
+        </style>
+    </section>
 
     <section class="spor">
         <h3>Spor</h3>
@@ -35,15 +109,15 @@
                 <puan-durumu lig="l3g4" hl="Düzcespor" theme="fb"></puan-durumu>
             </div>
 
-            <div class="componenetContainer" >
+            <div class="componenetContainer">
                 <puan-durumu lig="l2b" theme="bjk"></puan-durumu>
             </div>
 
-            <div class="componenetContainer" >
+            <div class="componenetContainer">
                 <puan-durumu lig="l2k" theme="ts"></puan-durumu>
             </div>
 
-            <div class="componenetContainer" >
+            <div class="componenetContainer">
                 <puan-durumu lig="l3g1" theme="ds"></puan-durumu>
             </div>
 
@@ -60,11 +134,11 @@
     </section>
     <section class="doviz" style="flex-direction:column;">
         <h3>Döviz</h3>
-        <div class="componenetContainer" style="width: 50%;" >
+        <div class="componenetContainer" style="width: 50%;">
             <doviz-kuru-mini></doviz-kuru-mini>
         </div>
         <br>
-        <div class="componenetContainer" style="width: 55%;height: 200px" >
+        <div class="componenetContainer" style="width: 55%;height: 200px">
             <doviz-kuru></doviz-kuru>
         </div>
         <div class="componenetContainer" style="width: 200px;height: 600px">
@@ -73,7 +147,7 @@
         <div class="componenetContainer" style="width: 400px;height: 300px">
             <doviz-kuru></doviz-kuru>
         </div>
-       
+
     </section>
 
     <section class="hava">
@@ -87,13 +161,13 @@
             <hava-durumu city="81" theme="210"></hava-durumu>
 
         </div>
-    <div class="componenetContainer" style="width: 800px;">
-        <hava-durumu city="17" theme="mor"></hava-durumu>
-    </div>
+        <div class="componenetContainer" style="width: 800px;">
+            <hava-durumu city="17" theme="mor"></hava-durumu>
+        </div>
 
-    <div class="componenetContainer" style="width: 1200px;">
-        <hava-durumu city="45" theme="turkuaz"></hava-durumu>
-    </div>
+        <div class="componenetContainer" style="width: 1200px;">
+            <hava-durumu city="45" theme="turkuaz"></hava-durumu>
+        </div>
 
 
     </section>
@@ -112,133 +186,128 @@
 </body>
 
 <style>
-   
-
-    body{
-        width:100vw;
+    body {
+        width: 100vw;
+        --birincil: #00529e;
+        --ikincil: #e31e24;
     }
 
-    
-    section{
+
+    section {
         background-color: rgb(209, 209, 209);
         padding: 1em;
-        margin:5px 0;
+        margin: 5px 0;
 
     }
 
-    section > h3{
-        color:grey;
+    section>h3 {
+        color: grey;
         font-family: Changa;
         letter-spacing: 25px;
         font-weight: 800;
         font-size: 3em;
-        margin:0;
+        margin: 0;
         text-transform: uppercase;
         padding: .25em 1em;
-        width:100%;
+        width: 100%;
     }
 
-    .item{
+    .item {
         background-color: rgb(228, 227, 227);
         padding: 10px;
-        margin:10px 0;
+        margin: 10px 0;
         display: flex;
         flex-wrap: wrap;
     }
 
-    .item > h3{
-        color:grey;
+    .item>h3 {
+        color: grey;
         writing-mode: vertical-lr;
         font-family: Changa;
         letter-spacing: 5px;
         font-weight: 800;
         font-size: 2em;
-        transform:rotateZ(180deg);
-        margin:0;
-        height:200px;
+        transform: rotateZ(180deg);
+        margin: 0;
+        height: 200px;
 
     }
 
-     .componenetContainer {
-        width:350px;
-        background:lightgrey;
-        margin:10px;
-        padding:10px;
+    .componenetContainer {
+        width: 350px;
+        background: lightgrey;
+        margin: 10px;
+        padding: 10px;
     }
 
-    table{
-        width:100%;
-        background:blue!important;
+    table {
+        width: 100%;
+        background: blue !important;
     }
 
-    .doviz{
-        display:flex;
+    .doviz {
+        display: flex;
         flex-wrap: wrap;
-        padding:1em;
+        padding: 1em;
         justify-content: center;
     }
 
-    .doviz .componenetContainer{
-        padding:10px;
+    .doviz .componenetContainer {
+        padding: 10px;
     }
 
-    .hidden{
+    .hidden {
         display: none;
     }
-
 </style>
 
 
 <script>
- document.head.innerHTML += `<link rel="preconnect" href="https://fonts.gstatic.com">
+    document.head.innerHTML +=
+        `<link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&display=swap" rel="stylesheet">`;
-//document.querySelector("puan-durumu").setAttribute("data-table-html", '<h3> hello </h3>')
-/*
-fetch("https://raw.githubusercontent.com/kod8/haber8-scraper/main/data/spor/spor.json")
-.then(function(res){
-    return res.json()
-}).then(handleSpor)
+    //document.querySelector("puan-durumu").setAttribute("data-table-html", '<h3> hello </h3>')
+    /*
+    fetch("https://raw.githubusercontent.com/kod8/haber8-scraper/main/data/spor/spor.json")
+    .then(function(res){
+        return res.json()
+    }).then(handleSpor)
 
-var puanContainer = document.querySelector("section.spor .puan")
-var sonucContainer = document.querySelector("section.spor .sonuc")
-var fiksturContainer = document.querySelector("section.spor .fikstur")
+    var puanContainer = document.querySelector("section.spor .puan")
+    var sonucContainer = document.querySelector("section.spor .sonuc")
+    var fiksturContainer = document.querySelector("section.spor .fikstur")
 
-function handleSpor(data){
-    for(const lig in data){
-        var obj = data[lig]
-        ligName = obj.name;
+    function handleSpor(data){
+        for(const lig in data){
+            var obj = data[lig]
+            ligName = obj.name;
 
-        var e1Container = document.createElement("div");
-        e1Container.classList.add("componenetContainer")
-        var puanElement = document.createElement("puan-durumu")
-        puanElement.setAttribute("lig", ligName)
-        puanElement.setAttribute("data-table-html", obj.puanHTML);
-        e1Container.appendChild(puanElement)
-        puanContainer.appendChild(e1Container);
-        
-        var e2Container = document.createElement("div");
-        e2Container.classList.add("componenetContainer")
-        var sonucElement = document.createElement("sonuc")
-        sonucElement.setAttribute("lig", ligName)
-        sonucElement.setAttribute("data-table-html", obj.sonucHTML);
-        e2Container.appendChild(sonucElement)
-        sonucContainer.appendChild(e2Container);
+            var e1Container = document.createElement("div");
+            e1Container.classList.add("componenetContainer")
+            var puanElement = document.createElement("puan-durumu")
+            puanElement.setAttribute("lig", ligName)
+            puanElement.setAttribute("data-table-html", obj.puanHTML);
+            e1Container.appendChild(puanElement)
+            puanContainer.appendChild(e1Container);
+            
+            var e2Container = document.createElement("div");
+            e2Container.classList.add("componenetContainer")
+            var sonucElement = document.createElement("sonuc")
+            sonucElement.setAttribute("lig", ligName)
+            sonucElement.setAttribute("data-table-html", obj.sonucHTML);
+            e2Container.appendChild(sonucElement)
+            sonucContainer.appendChild(e2Container);
 
-        var e3Container = document.createElement("div");
-        e2Container.classList.add("componenetContainer")
-        var fiksturElement = document.createElement("fikstur")
-        fiksturElement.setAttribute("lig", ligName)
-        fiksturElement.setAttribute("data-table-html", obj.fiksturHTML);
-        e3Container.appendChild(sonucElement)
-        fiksturContainer.appendChild(e3Container);        
+            var e3Container = document.createElement("div");
+            e2Container.classList.add("componenetContainer")
+            var fiksturElement = document.createElement("fikstur")
+            fiksturElement.setAttribute("lig", ligName)
+            fiksturElement.setAttribute("data-table-html", obj.fiksturHTML);
+            e3Container.appendChild(sonucElement)
+            fiksturContainer.appendChild(e3Container);        
+        }
     }
-}
-*/
-
-
-
-
-
+    */
 </script>
 
 

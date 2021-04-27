@@ -1,16 +1,18 @@
 const namazVaktiMiniTemplate = document.createElement("template");
 namazVaktiMiniTemplate.innerHTML = `
+<!--
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;800&display=swap" rel="stylesheet">
-
+-->
 <style>
    :host * {
-      font-family: 'Manrope', sans-serif;
-      font-family: 'Rajdhani', sans-serif;
+      /*font-family: 'Manrope', sans-serif;*/
+      /*font-family: 'Rajdhani', sans-serif;*/
     }
 
     :host{
+      --detay:visible;
         --lighter: hsl(0, 0%, 100%);;
         --hue:220;
         padding:1em;
@@ -42,16 +44,16 @@ namazVaktiMiniTemplate.innerHTML = `
       align-items:center;
       justify-content:space-between;
       width:100%;
-      margin-top:15px;
+      margin-top:10px;
     }
 
     .timerLabel{
-      font-size:2em;
+      font-size:1.5em;
       font-weight:200;
     }
 
     .timerValue{
-      font-size:3em;
+      font-size:2em;
       font-weight:800;
     }
 
@@ -67,10 +69,14 @@ namazVaktiMiniTemplate.innerHTML = `
       visibility:hidden;
       background:var(--main);
       border-radius:5px;
+
+      flex-direction:row;
+      width:400px;
     }
 
     :host(:hover) .vakitler{
-      visibility:visible;
+      visibility:var(--detay);
+      z-index: 800;
     }
 
     .vakitler .vakit{
@@ -78,36 +84,38 @@ namazVaktiMiniTemplate.innerHTML = `
       flex-direction:column;
       margin:.25em 0;
       padding-left:10px;
-      opacity:.2;
+      padding-right:10px;
+      opacity:.3;
     }
 
     .vakitler .vakit.current{
-      border-left:5px solid white;
+      border-bottom:5px solid white;
       opacity:.6;
     }
 
     .vakitler .vakit.current + .vakit{
-      border-left:5px solid lightgreen;
+      border-bottom:5px solid lightgreen;
       opacity:1;
     }
 
     .vakitler .vakit .label{
-     font-size:1.5em;
+     font-size:1em;
      font-weight:200;
     }
 
     .vakitler .vakit .value{
-      font-size:2em;
+      font-size:1.5em;
       font-weight:800;
     }
 
     
     .city{
-      background: var(--light);
+      background: var(--darker);
     font-size: 1em;
     font-weight: 400;
-    color: var(--darker);
+    color: var(--light);
     padding:.5em 1em;
+    padding:0;
     letter-spacing: 2.5px;
     line-height: 13px;
     border: none;
