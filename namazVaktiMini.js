@@ -314,13 +314,15 @@ class namazVaktiMini extends HTMLElement {
 
   renderCity(plate) {
     this.classList.add("loading");
-    this.vakitlerDOM.querySelector(`.${this.currentVakit}`).classList.add("current");
+    var current = this.currentVakit == null ? "yatsi" :this.currentVakit;
+
+    this.vakitlerDOM.querySelector(`.${current}`).classList.add("current");
 
     for (var vakit in this.vakitler) {
       if (vakit == "imsak2") continue;
       this.vakitlerDOM.querySelector(`.${vakit} .value`).innerText = this.vakitler[vakit].value;
     }
-    var next = this.getAttribute("ramazan") == "" ? this.vakitler[this.currentVakit].nextRamazan : this.vakitler[this.currentVakit].next
+    var next = this.getAttribute("ramazan") == "" ? this.vakitler[current].nextRamazan : this.vakitler[current].next
 
     this.timerLabel.innerText = this.vakitler[next].label + " Kalan"
     if (this.getAttribute("ramazan") == "" && next == "aksam") {
@@ -328,16 +330,17 @@ class namazVaktiMini extends HTMLElement {
     }
 
 
-
-
     this.classList.remove("loading");
   }
 
   timer() {
     var next;
-    if (this.currentVakit == null) { next = "imsak"; }
+    var current = this.currentVakit == null ? "yatsi" :this.currentVakit;
+    if (this.currentVakit == null) { 
+      next = "imsak"; 
+    }
     else {
-      next = this.getAttribute("ramazan") == "" ? this.vakitler[this.currentVakit].nextRamazan : this.vakitler[this.currentVakit].next
+      next = this.getAttribute("ramazan") == "" ? this.vakitler[current].nextRamazan : this.vakitler[current].next
     }
 
     var now = new Date();
