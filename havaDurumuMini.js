@@ -13,6 +13,7 @@ havaDurumuMiniTemplate.innerHTML = `
 
     :host{
         --lighter: hsl(0, 0%, 100%);
+        --cityVisible:block;
         --family:"montserrat";
 
         --hue:220;
@@ -43,6 +44,7 @@ havaDurumuMiniTemplate.innerHTML = `
     } 
 
     .city{
+      display:var(--cityVisibile);
       font-family: var(--family);
       font-size: 1.4em;
       font-weight: 800;
@@ -75,7 +77,7 @@ havaDurumuMiniTemplate.innerHTML = `
     }
 
     .today .degree{
-      font-size:2em;
+      font-size:4em;
       font-weight:800;
       min-width:30%;
      color:var(--lighter);
@@ -90,13 +92,8 @@ havaDurumuMiniTemplate.innerHTML = `
     }
 
     .today .icon{
-      width:2em;
+      width:75px;
       min-width:15%;
-      position:absolute;
-      left: -90px;
-    top: -45px;
-    width: 75px;
-
     }
 
     .days .item {
@@ -241,7 +238,7 @@ class havaDurumuMini extends HTMLElement {
   }
 
   connectedCallback() {
-    var city = localStorage.getItem("weatherCity") || this.getAttribute("city") || "1";
+    var city = localStorage.getItem("city") || this.getAttribute("city") || "1";
     this.renderCity(city)
     this.fetchData();
 
@@ -278,7 +275,7 @@ fetchData() {
    for(var plate in data){
      this.cities[plate].hava = data[plate].durum;
    }
-   var city = localStorage.getItem("weatherCity") || this.getAttribute("city") || "1";
+   var city = localStorage.getItem("city") || this.getAttribute("city") || "1";
    this.renderCity(city);
   };
 
@@ -310,8 +307,14 @@ fetchData() {
     if(this.getAttribute("city")!==e.target.value) 
     {
       this.setAttribute("city", e.target.value);
-      localStorage.setItem('weatherCity', e.target.value);
-      }
+      localStorage.setItem('city', e.target.value);
+    }
+  }
+
+  changeCityFromOutside(city){
+    var event = new Event('change');
+    this.citySelectElement.value=city;
+    this.citySelectElement.dispatchEvent(event);
   }
 
    themes = {

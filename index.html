@@ -31,7 +31,7 @@
         <div class="componenetContainer kod8Widgets">
             <hava-durumu-mini city="81" theme="turkuaz"></hava-durumu-mini>
             <doviz-kuru-mini></doviz-kuru-mini>
-            <namaz-vakti-mini city="81" theme="turkuaz" ramazan></namaz-vakti-mini>
+            <namaz-vakti-mini city="81" theme="turkuaz" ramazan also-trigger="hava-durumu-mini"></namaz-vakti-mini>
         </div>
 
         <style>
@@ -43,29 +43,23 @@
                 width: 90vw !important;
                 background-color: var(--birincil) !important;
                 border-radius: 5px;
-                padding: 0;
-
+                padding: 20px!important;
             }
 
-            .kod8Widgets span {
-                display: block;
-                background-color: rgba(216, 213, 213, 0.268);
-                width: 1px;
-                height: 35px;
-                border-radius: 1em;
-            }
+            
 
             hava-durumu-mini,
             namaz-vakti-mini,
             doviz-kuru-mini {
-                height: 35px;
                 padding: 1em;
                 border-radius: 5px;
                 font-size: 10px;
+                background: transparent;
+                padding:0;
             }
 
             doviz-kuru-mini {
-                width: 250px;
+                width: 350px;
                 display: flex;
                 --light: #ddd;
                 --lighter: #fff;
@@ -75,20 +69,16 @@
                 --bist: none;
             }
 
-            hava-durumu-mini{
-			padding-left: 100px;
-
-}
-
             doviz-kuru-mini #shadow-root .bist {
                 display: none;
             }
 
             hava-durumu-mini,
             namaz-vakti-mini {
-                --detay:hidden;
+                --detay:visible;
+                --city:none;
                 display: flex;
-                width: 175px;
+                width: 250px;
                 --lighter: hsl(0deg 38% 93%);
                 --light: #eee;
                 --main: var(--birincil);
@@ -97,6 +87,11 @@
                 --gr2: var(--birincil);
                 --gr3: var(--birincil);
                 --gr4: var(--birincil);
+            }
+
+            hava-durumu-mini {
+                --cityVisibile:none;
+
             }
         </style>
     </section>

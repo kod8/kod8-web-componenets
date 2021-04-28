@@ -14,6 +14,7 @@ namazVaktiMiniTemplate.innerHTML = `
 
     :host{
       --detay:visible;
+      --cityVisibile:block;
       --family:"montserrat";
 
         --lighter: hsl(0, 0%, 100%);;
@@ -68,7 +69,7 @@ namazVaktiMiniTemplate.innerHTML = `
       flex-direction:column;
       justify-content:space-between;
       padding:1em;
-      padding-left:0px;
+      /*padding-left:0px;*/
       visibility:hidden;
       background:var(--main);
       border-radius:5px;
@@ -99,11 +100,14 @@ namazVaktiMiniTemplate.innerHTML = `
     .vakitler .vakit.current + .vakit{
       border-bottom:5px solid lightgreen;
       opacity:1;
+      background: #40404066;
+    padding: .25em 1em;
+    border-radius: 5px;
     }
 
     .vakitler .vakit .label{
      font-size:1em;
-     font-weight:200;
+     font-weight:400;
     }
 
     .vakitler .vakit .value{
@@ -113,6 +117,7 @@ namazVaktiMiniTemplate.innerHTML = `
 
     
     .city{
+      display:var(--cityVisibile);
       font-size: 1.4em;
       font-weight: 800;
     padding:.5em 1em;
@@ -241,7 +246,7 @@ class namazVaktiMini extends HTMLElement {
   }
 
   connectedCallback() {
-    var city = localStorage.getItem("namazCity") || this.getAttribute("city") || "34";
+    var city = localStorage.getItem("city") || this.getAttribute("city") || "34";
     this.citySelectElement.value = city;
     this.fetchData();
     this.citySelectElement.addEventListener("change", this.handleSelectInput);
@@ -267,7 +272,7 @@ class namazVaktiMini extends HTMLElement {
   }
 
   fetchData(plate) {
-    var city = plate || localStorage.getItem("namazCity") || this.getAttribute("city") || "34";
+    var city = plate || localStorage.getItem("city") || this.getAttribute("city") || "34";
 
     const url = `https://service.kod8.app/api/namaz/${city}`
 
@@ -334,6 +339,7 @@ class namazVaktiMini extends HTMLElement {
   }
 
   timer() {
+    if (this.classList.contains("loading")) return;
     var next;
     var current = this.currentVakit == null ? "yatsi" :this.currentVakit;
     if (this.currentVakit == null) { 
@@ -353,8 +359,6 @@ class namazVaktiMini extends HTMLElement {
     if (diff < 0) {
       this.findVakit();
     }
-
-
   }
 
   setTheme(themeID) {
@@ -369,8 +373,19 @@ class namazVaktiMini extends HTMLElement {
   handleSelectInput(e) {
     if (this.getAttribute("city") !== e.target.value) {
       this.setAttribute("city", e.target.value);
-      localStorage.setItem('namazCity', e.target.value);
+      localStorage.setItem('city', e.target.value);
     }
+
+    if(this.getAttribute("also-trigger")){
+      var targetComponent=this.getAttribute("also-trigger");
+      document.querySelectorAll(targetComponent).forEach(el=>el.changeCityFromOutside(e.target.value))
+    }
+  }
+
+  changeCityFromOutside(city){
+    var event = new Event('change');
+    this.citySelectElement.value=city;
+    this.citySelectElement.dispatchEvent(event);
   }
 
   themes = {
