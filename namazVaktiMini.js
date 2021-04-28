@@ -351,10 +351,11 @@ class namazVaktiMini extends HTMLElement {
 
     var now = new Date();
     var nextDateObj = this.vakitler[next].valueDateObj;
-    var diff = Math.round((nextDateObj.getTime() - now.getTime()) / 60000);
-    var hour = Math.floor((diff / 60));
-    var min = Math.floor(diff % 60);
-    var remainingText = String(hour).padStart(2, '0') + ":" + String(min).padStart(2, '0');
+    var diff = Math.round((nextDateObj.getTime() - now.getTime()) / 1000);
+    var hour = Math.floor((diff / 3600));
+    var min = Math.floor((diff/60) % 60);
+    var sec = Math.floor(diff%60);
+    var remainingText = String(hour).padStart(2, '0')+ ":" + String(min).padStart(2, '0') + ":" + String(sec).padStart(2, '0'); 
     this.timerValue.innerText = remainingText;
     if (diff < 0) {
       this.findVakit();
