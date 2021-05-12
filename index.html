@@ -14,7 +14,7 @@
     <script defer src="./havaDurumu.js"></script>
     <script defer src="./havaDurumuMini.js"></script>
     <script defer src="./namazVaktiMini.js"></script>
-
+    <script defer src="./gazeteMansetleriMini.js"></script>
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
@@ -25,6 +25,14 @@
 
 <body>
     <h1>KOD8 Web Components Demo</h1>
+
+<section class="gazete">
+        <h3>Gazeteler</h3>
+        <div class="componenetContainer" style="width: 350px;">
+            <gazete-mansetleri-mini ></gazete-mansetleri-mini>
+        </div>
+
+    </section>
 
     <section class="toplu">
         <h3>Toplu</h3>
@@ -66,8 +74,6 @@
                 --darker: var(--birincil);
                 --bist: none;
             }
-
-            
 
             hava-durumu-mini,
             namaz-vakti-mini {
