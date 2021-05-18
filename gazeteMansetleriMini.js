@@ -12,7 +12,6 @@ mansetTemplate.innerHTML = `
   </div>
 </div>
 
-
 <style>
     :host{
       --light: #e1e1e1;
@@ -44,13 +43,14 @@ mansetTemplate.innerHTML = `
       border-radius: 0px 0px 15px 15px;
     }
 
+    .list{
+
+      background: var(--gr1);
+    }
 
     .list .item{
       position: relative;
       color: var(--light);
-      background: var(--gr1);
-      margin: 5px;
-      padding: 10px;
       cursor: pointer;
       border-radius: 5px;
       font-size: 12px;
@@ -58,14 +58,17 @@ mansetTemplate.innerHTML = `
       display: flex;
       align-items: center;
       justify-content: center;
+      width: auto;
+    height: 100%;
     }
 
     .list .item img{    
       width: auto;
-      height: 400px;
       object-fit: cover;
       border-radius: 10px;
       filter: blur(3px);
+      width: 100%;
+    height: 90%;
     }
 
 
@@ -87,7 +90,22 @@ mansetTemplate.innerHTML = `
       align-items: center;
       justify-content: center;
       backdrop-filter: contrast(0.5);
+      
     }
+
+
+
+
+    .list .item span{  
+      display:none;
+    }
+
+    .list .item img{  
+      filter:unset;
+    }
+
+
+
 </style>
 `;
 
@@ -161,25 +179,21 @@ class gazeteMansetleriMini extends HTMLElement {
           left : '5rem',
         },
         rewind      : true,
-        autoWidth  : true,
-        autoHeight : true,
-        perPage:"3",
-        perMove:"3",
-        gap         : 10,
-        focus       : 'center',
+        perPage:"5",
+        perMove:"5",
+        gap         : 20,
         pagination  : false,
         cover       : true,
         breakpoints: {
           '640': {
-            perPage: 2,
-            gap    : '1rem',
-            perMove:"2",
+            padding: {
+              right: '1rem',
+              left : '1rem',
+            },
+          
+            perPage: "2",
+            perMove:"2"
           },
-          '480': {
-            perPage: 1,
-            gap    : '1rem',
-            perMove:"1",
-          }
         }
       } ).mount();
   }
