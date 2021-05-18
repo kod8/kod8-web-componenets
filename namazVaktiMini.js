@@ -329,9 +329,9 @@ class namazVaktiMini extends HTMLElement {
     }
     var next = this.getAttribute("ramazan") == "" ? this.vakitler[current].nextRamazan : this.vakitler[current].next
 
-    this.timerLabel.innerText = this.vakitler[next].label + " Kalan"
+    this.timerLabel.innerText = this.vakitler[next].label + " Kalan";
     if (this.getAttribute("ramazan") == "" && next == "aksam") {
-      this.timerLabel.innerText = "İftar'a Kalan"
+      this.timerLabel.innerText = "İftar'a Kalan";
     }
 
 
@@ -346,7 +346,7 @@ class namazVaktiMini extends HTMLElement {
       next = "imsak"; 
     }
     else {
-      next = this.getAttribute("ramazan") == "" ? this.vakitler[current].nextRamazan : this.vakitler[current].next
+      next = this.getAttribute("ramazan") == "" ? this.vakitler[current].nextRamazan : this.vakitler[current].next;
     }
 
     var now = new Date();
@@ -364,10 +364,10 @@ class namazVaktiMini extends HTMLElement {
 
   setTheme(themeID) {
     if (this.themes[themeID]) {
-      this.style.setProperty("--hue", this.themes[themeID])
+      this.style.setProperty("--hue", this.themes[themeID]);
     }
     else {
-      this.style.setProperty("--hue", themeID)
+      this.style.setProperty("--hue", themeID);
     }
   }
 
@@ -379,7 +379,7 @@ class namazVaktiMini extends HTMLElement {
 
     if(this.getAttribute("also-trigger")){
       var targetComponent=this.getAttribute("also-trigger");
-      document.querySelectorAll(targetComponent).forEach(el=>el.changeCityFromOutside(e.target.value))
+      document.querySelectorAll(targetComponent).forEach(el=>el.changeCityFromOutside(e.target.value));
     }
   }
 

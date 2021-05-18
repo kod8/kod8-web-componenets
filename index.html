@@ -28,7 +28,7 @@
 
 <section class="gazete">
         <h3>Gazeteler</h3>
-        <div class="componenetContainer" style="width: 350px;">
+        <div class="componenetContainer" style="width: 100%;">
             <gazete-mansetleri-mini ></gazete-mansetleri-mini>
         </div>
 
@@ -48,10 +48,9 @@
                 flex-wrap: wrap;
                 justify-content: space-between;
                 align-items: center;
-                width: 90vw !important;
+                width: 100% !important;
                 background-color: var(--birincil) !important;
                 border-radius: 5px;
-                padding: 20px!important;
             }
 
             hava-durumu-mini,
@@ -97,7 +96,7 @@
         </style>
     </section>
 
-    <section class="spor">
+    <section hidden class="spor">
         <h3>Spor</h3>
         <div class="item puan">
             <h3>Puanlar</h3>
@@ -132,7 +131,7 @@
             <h3>Fikstur</h3>
         </div>
     </section>
-    <section class="doviz" style="flex-direction:column;">
+    <section hidden class="doviz" style="flex-direction:column;">
         <h3>Döviz</h3>
         <div class="componenetContainer" style="width: 50%;">
             <doviz-kuru-mini></doviz-kuru-mini>
@@ -150,7 +149,7 @@
 
     </section>
 
-    <section class="hava">
+    <section hidden class="hava">
         <h3>Hava</h3>
 
         <div class="componenetContainer" style="width: 400px;">
@@ -172,7 +171,7 @@
 
     </section>
 
-    <section class="namaz">
+    <section hidden class="namaz">
         <h3>Namaz</h3>
         <div class="componenetContainer" style="width: 250px;">
             <namaz-vakti-mini city="45" theme="mavi"></namaz-vakti-mini>
@@ -205,7 +204,7 @@
         font-family: Changa;
         letter-spacing: 25px;
         font-weight: 800;
-        font-size: 3em;
+        font-size: 1.5em;
         margin: 0;
         text-transform: uppercase;
         padding: .25em 1em;
@@ -226,7 +225,7 @@
         font-family: Changa;
         letter-spacing: 5px;
         font-weight: 800;
-        font-size: 2em;
+        font-size: 1em;
         transform: rotateZ(180deg);
         margin: 0;
         height: 200px;
@@ -234,10 +233,7 @@
     }
 
     .componenetContainer {
-        width: 350px;
         background: lightgrey;
-        margin: 10px;
-        padding: 10px;
     }
 
     table {
@@ -250,6 +246,7 @@
         flex-wrap: wrap;
         padding: 1em;
         justify-content: center;
+        display:none;
     }
 
     .doviz .componenetContainer {

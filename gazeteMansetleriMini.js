@@ -1,7 +1,18 @@
 const mansetTemplate = document.createElement("template");
 mansetTemplate.innerHTML = `
+<link rel="stylesheet" type="text/css" href="https://static.haber8.pro/assets/splide/css/splide.min.css" async="">
+
 <h2 class="title">Gazete Manşetleri</h2>
-<div class="list"></div>
+
+<div id="gazeteSlider" class="list splide">
+  <div class="splide__track">
+      <div class="splide__list">
+
+      </div>
+  </div>
+</div>
+
+
 <style>
     :host{
       --light: #e1e1e1;
@@ -33,21 +44,49 @@ mansetTemplate.innerHTML = `
       border-radius: 0px 0px 15px 15px;
     }
 
-    .list{
-      display:flex;
-      flex-wrap:wrap;
+
+    .list .item{
+      position: relative;
+      color: var(--light);
+      background: var(--gr1);
+      margin: 5px;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
       justify-content: center;
     }
 
-    .list .item{
-      color:var(--light);
-      background:var(--gr1);
-      margin:5px;
-      padding:5px 10px;
-      cursor:pointer;
+    .list .item img{    
+      width: auto;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 10px;
+      filter: blur(3px);
+    }
+
+
+    .list .item span{    
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+      color: var(--light);
+      background: hsl(0deg 0% 0% / 75%);
+      padding: 24px 0px;
+      cursor: pointer;
       border-radius: 5px;
-      font-size: 12px;
-    font-weight: 600;
+      font-size: 24px;
+      font-weight: 800;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: contrast(0.5);
     }
 </style>
 `;
@@ -59,8 +98,9 @@ class gazeteMansetleriMini extends HTMLElement {
     // Create shadow dom and append content via template
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(mansetTemplate.content.cloneNode(true));
-  
-    this.list = this.shadowRoot.querySelector(".list");
+    this.slider = this.shadowRoot.querySelector("#gazeteSlider");
+
+    this.list = this.shadowRoot.querySelector(".list .splide__list");
     this.handleData = this.handleData.bind(this);
     this.loadExternalFile = this.loadExternalFile.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -69,9 +109,12 @@ class gazeteMansetleriMini extends HTMLElement {
     
   // runs when element added to DOM
   connectedCallback() {
-    var PICOMODALURL = "https://static.haber8.pro/assets/picoModal.js"
+    var PICOMODALURL = "https://static.haber8.pro/assets/picoModal.js";
+    var SPLIDEJSURL = "https://static.haber8.pro/assets/splide/js/splide.min.js";
+    //var SPLIDECSSURL = "https://static.haber8.pro/assets/splide/css/splide.min.css";
     this.loadExternalFile(PICOMODALURL, "js", true);
-    this.fetchData();
+    this.loadExternalFile(SPLIDEJSURL, "js", true, "fetchData");
+    //this.loadExternalFile(SPLIDECSSURL, "css", true);
   }
   
   // runs when element removed from DOM
@@ -88,7 +131,7 @@ class gazeteMansetleriMini extends HTMLElement {
   }
     
   fetchData() {
-    const url = `https://service.kod8.app/data/gazeteler/list.json`
+    const url = `https://service.kod8.app/data/gazeteler/list.json`;
     fetch(url)
       .then(function (res) {
         return res.json();
@@ -97,22 +140,53 @@ class gazeteMansetleriMini extends HTMLElement {
   };
 
   handleData(data){
-    const BASEDIR="https://service.kod8.app/data/gazeteler/"
+    const BASEDIR="https://service.kod8.app/data/gazeteler/";
       for(const gazete of data){
         var el=document.createElement("div");
-          el.classList.add("gazete");
-          el.classList.add("item");
-          el.innerHTML=gazete.name;
-          el.dataset.image=BASEDIR+gazete.imageName+"_full.jpg"
-          //todo thumb
+          el.classList.add("splide__slide");
+          el.innerHTML=`
+          <div class="gazete item" data-image=${BASEDIR+gazete.imageName+"_full.jpg"}>
+          <img src="${BASEDIR+gazete.imageName+"_thumb.jpg"}" alt="${gazete.name}">
+          <span>${gazete.name}</span>
+          </div>
+          `;
           this.list.appendChild(el);
-          el.addEventListener("click",this.openModal)
+          el.addEventListener("click",this.openModal);
       }
+
+      this.splide = new Splide( this.slider, {
+        type:"slide",
+        padding: {
+          right: '5rem',
+          left : '5rem',
+        },
+        rewind      : true,
+        autoWidth  : true,
+        autoHeight : true,
+        perPage:"3",
+        perMove:"3",
+        gap         : 10,
+        focus       : 'center',
+        pagination  : false,
+        cover       : true,
+        breakpoints: {
+          '640': {
+            perPage: 2,
+            gap    : '1rem',
+            perMove:"2",
+          },
+          '480': {
+            perPage: 1,
+            gap    : '1rem',
+            perMove:"1",
+          }
+        }
+      } ).mount();
   }
 
   openModal(e){
     /*console.log(e.target.dataset.image)*/
-    var imageUrl=e.target.dataset.image;
+    var imageUrl=e.target.dataset.image ? e.target.dataset.image :e.target.closest(".gazete.item").dataset.image ;
     var name=e.target.innerText.trim();
     var modalContent = `
     <div class="gazeteImageContainer" style="height: 90vh;overflow-y: scroll;">
@@ -148,7 +222,7 @@ class gazeteMansetleriMini extends HTMLElement {
         styles.display = "flex";
         styles.alignItems = "center";
         styles.justifyContent = "center";
-        styles.padding = "0"
+        styles.padding = "0";
       }
     })
   
@@ -157,10 +231,7 @@ class gazeteMansetleriMini extends HTMLElement {
   }
 
 
-
-
-
-loadExternalFile(filename, filetype, isAsync) {
+loadExternalFile(filename, filetype, isAsync,cb) {
   if (filetype == "js") { //if filename is a external JavaScript file
     var fileref = document.createElement('script');
     fileref.setAttribute("type", "text/javascript");
@@ -168,17 +239,19 @@ loadExternalFile(filename, filetype, isAsync) {
     isAsync ? fileref.setAttribute("async", "") : "";
   }
   else if (filetype == "css") { //if filename is an external CSS file
-    var fileref = document.createElement("link")
-    fileref.setAttribute("rel", "stylesheet")
-    fileref.setAttribute("type", "text/css")
-    fileref.setAttribute("href", filename)
+    var fileref = document.createElement("link");
+    fileref.setAttribute("rel", "stylesheet");
+    fileref.setAttribute("type", "text/css");
+    fileref.setAttribute("href", filename);
     isAsync ? fileref.setAttribute("async", "") : "";
   }
   if (typeof fileref != "undefined")
-    document.getElementsByTagName("head")[0].appendChild(fileref)
+    document.getElementsByTagName("head")[0].appendChild(fileref);
+   if (cb){ fileref.addEventListener("load", function(){
+      this[cb]();
+    }.bind(this));
+  }
 }
-
-
 
 }
 
