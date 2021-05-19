@@ -18,34 +18,30 @@ mansetTemplate.innerHTML = `
       --main: #6b6b6b;
       --dark: #5f5f5f;
       --darker: #212121;
-        --gr1:linear-gradient(25deg, var(--darker), var(--dark));
+        --gr1:linear-gradient(0deg, var(--birincil), #121212);
         font-family: 'Montserrat', sans-serif;
         display:block;
         color:var(--main);
-        background: var(--light);
-        padding: 1em;
+        background: var(--gr1);
+        padding: 2em 1em;
         border-radius: 5px;
-
-        padding-top: 0;
     } 
 
 
     .title{
       z-index: 1;
-      position:relative;
-      width: fit-content;
-      margin: 18px auto;
-
-      margin-top: 0;
-      padding: 30px 20px 15px 20px;
-      background: var(--gr1);
-      color: var(--light);
-      border-radius: 0px 0px 15px 15px;
+    position: relative;
+    width: fit-content;
+    margin: 20px auto;
+    margin-top: 0;
+    padding: 10px 20px;
+    background: #fcfcfc1f;
+    color: var(--light);
+    border-radius: 5px;
+    border-top: 5px solid var(--birincil);
     }
 
     .list{
-
-      background: var(--gr1);
     }
 
     .list .item{
@@ -63,57 +59,64 @@ mansetTemplate.innerHTML = `
     }
 
     .list .item img{    
-      width: auto;
       object-fit: cover;
-      border-radius: 10px;
-      filter: blur(3px);
-      width: 100%;
-    height: 90%;
+    border-radius: 5px;
+    width: 90%;
+    height: inherit;
+    box-shadow: 1px 1px 9px 0px #00000099;
+    transition: all .25s ease;
     }
 
+    .list .item:hover img{
+      transform:scale(1.05);
+    }
 
     .list .item span{    
       position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
+      width: 90%;
       text-align: center;
       color: var(--light);
-      background: hsl(0deg 0% 0% / 75%);
-      padding: 24px 0px;
+      background: hsl(0deg 0% 0% / 61%);
       cursor: pointer;
       border-radius: 5px;
-      font-size: 24px;
+      font-size: 150%;
       font-weight: 800;
-      height: 100%;
+      object-fit: cover;
+      height: inherit;
       display: flex;
       align-items: center;
       justify-content: center;
-      backdrop-filter: contrast(0.5);
-      
+      backdrop-filter: blur(4px);
     }
-
-
-
 
     .list .item span{  
       display:none;
+    }
+
+    .list .item:hover span{  
+      display:flex;
+      transform: scale(1.05);
     }
 
     .list .item img{  
       filter:unset;
     }
 
-
+    .splide__arrow {
+      width: 3em;
+      height: 3em;
+      opacity: .8;
+      background: var(--ikincil);
+  }
 
 </style>
 `;
 
 class gazeteMansetleriMini extends HTMLElement {
-  //runs when element created
+  /*runs when element created*/
   constructor() {
     super();
-    // Create shadow dom and append content via template
+    /* Create shadow dom and append content via template*/
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(mansetTemplate.content.cloneNode(true));
     this.slider = this.shadowRoot.querySelector("#gazeteSlider");
@@ -125,17 +128,15 @@ class gazeteMansetleriMini extends HTMLElement {
     
   }
     
-  // runs when element added to DOM
+  /* runs when element added to DOM*/
   connectedCallback() {
     var PICOMODALURL = "https://static.haber8.pro/assets/picoModal.js";
     var SPLIDEJSURL = "https://static.haber8.pro/assets/splide/js/splide.min.js";
-    //var SPLIDECSSURL = "https://static.haber8.pro/assets/splide/css/splide.min.css";
     this.loadExternalFile(PICOMODALURL, "js", true);
     this.loadExternalFile(SPLIDEJSURL, "js", true, "fetchData");
-    //this.loadExternalFile(SPLIDECSSURL, "css", true);
   }
   
-  // runs when element removed from DOM
+  /* runs when element removed from DOM*/
   disconnectedCallback() {
   
   }
@@ -179,12 +180,22 @@ class gazeteMansetleriMini extends HTMLElement {
           left : '5rem',
         },
         rewind      : true,
-        perPage:"5",
-        perMove:"5",
+        perPage:"3",
+        perMove:"3",
         gap         : 20,
         pagination  : false,
         cover       : true,
         breakpoints: {
+          '960': {
+            padding: {
+              right: '1rem',
+              left : '1rem',
+            },
+          
+            perPage: "3",
+            perMove:"3"
+          },
+
           '640': {
             padding: {
               right: '1rem',
@@ -246,13 +257,13 @@ class gazeteMansetleriMini extends HTMLElement {
 
 
 loadExternalFile(filename, filetype, isAsync,cb) {
-  if (filetype == "js") { //if filename is a external JavaScript file
+  if (filetype == "js") {
     var fileref = document.createElement('script');
     fileref.setAttribute("type", "text/javascript");
     fileref.setAttribute("src", filename);
     isAsync ? fileref.setAttribute("async", "") : "";
   }
-  else if (filetype == "css") { //if filename is an external CSS file
+  else if (filetype == "css") {
     var fileref = document.createElement("link");
     fileref.setAttribute("rel", "stylesheet");
     fileref.setAttribute("type", "text/css");
