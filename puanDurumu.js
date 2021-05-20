@@ -1,9 +1,8 @@
 const puanDurumuTemplate = document.createElement("template");
 puanDurumuTemplate.innerHTML = `
-<link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
       :host{
-      font-family: 'Changa', sans-serif;
+      font-family: 'montserrat', sans-serif;
 
         --light: #b0ade0;
         --lighter: #c3c1e6ff;
@@ -16,17 +15,25 @@ puanDurumuTemplate.innerHTML = `
         --gr3:linear-gradient(90deg, var(--light), var(--lighter));
         --gr4:linear-gradient(10deg, var(--light), var(--lighter));
 
-        --cell-pad: 2.5px;
+        --cell-pad: 5px;
+        --border-radius:3px;
         display:block;
         font-size:12px;
-        border-radius:10px;
+        
+        border-radius:var(--border-radius);
         color:var(--main);
         background:var(--lighter);
         padding:1em;
     		background:var(--gr2);
-    } 
+    }
 
-    
+
+    :host([mini="true"]) table thead tr th:nth-child(6),
+    :host([mini="true"]) table thead tr th:nth-child(7),
+    :host([mini="true"]) table tbody tr td:nth-child(6),
+    :host([mini="true"]) table tbody tr td:nth-child(7){
+      display:none;
+    }
     
     .puanDurumuHTML{
         width:100%;
@@ -45,7 +52,7 @@ puanDurumuTemplate.innerHTML = `
     caption{
         background:var(--darker);
         color:var(--lighter);
-        border-radius: 10px 10px 0 0;
+        border-radius: var(--border-radius) var(--border-radius) 0  0;
         letter-spacing:2px;
     }
 
@@ -77,6 +84,7 @@ puanDurumuTemplate.innerHTML = `
 
     table tbody tr{
         background:var(--gr4);
+          transition: all .25s ease;
     }
 
     table tr:nth-child(2n){
@@ -93,7 +101,6 @@ puanDurumuTemplate.innerHTML = `
       background:var(--main);
       color:var(--lighter);
   }
-
 
     table tr td, table tr th{
         text-align: center;
@@ -166,10 +173,11 @@ class PuanDurumu extends HTMLElement {
     //this.tableHTML = this.getAttribute("data-table-html") || defaultTableHTML;
     //this.shadowRoot.querySelector("h5.title").innerText = this.getAttribute("lig");
     this.shadowRoot.querySelector(".puanDurumuHTML").innerHTML = defaultTableHTML;
-
+    this.selectedIndex=null;
     this.setTableHTML = this.setTableHTML.bind(this);
     this.setTableHTMLFromJSON = this.setTableHTMLFromJSON.bind(this);
-
+    this.setHighlight = this.setHighlight.bind(this);
+    this.setMini = this.setMini.bind(this);
   }
 
   connectedCallback() {
@@ -188,21 +196,34 @@ class PuanDurumu extends HTMLElement {
 }
 
 static get observedAttributes() {
-	return ['hl', 'lig', 'theme'];
+	return ['hl', 'lig', 'theme', 'mini'];
   }
  
  attributeChangedCallback(name,oldVal,newVal) {
-	if(name == "hl") this.setHighlight();
+	if(name == "hl") {
+    this.setMini("unset");
+    this.setHighlight();
+  }
+ 
   //else if(name == "lig") this.fetchTableHTML(newVal);
   else if(name == "lig") this.fetchTableJSON(newVal);
   else if(name == "theme") {
     this.setTheme(newVal);
   }
+
+  else if(name == "mini") {
+    if(newVal=="true"){
+      this.setMini("set")
+     }
+     else{
+      this.setMini("unset");
+     } 
+  }
   
 }
 
   fetchTableHTML(lig) {
-    fetch(`https://raw.githubusercontent.com/kod8/haber8-scraper/main/data/spor/html/puan/${lig}.html`)
+    fetch(`https://service.kod8.app/data/spor/html/puan/${lig}.html`)
       .then(function (res) {
         return res.text();
       })
@@ -218,7 +239,7 @@ static get observedAttributes() {
   };
 
   fetchTableJSON(lig) {
-    fetch(`https://raw.githubusercontent.com/kod8/haber8-scraper/main/data/spor/json/puan/${lig}.json`)
+    fetch(`https://service.kod8.app/data/spor/json/puan/${lig}.json`)
       .then(function (res) {
         return res.json();
       })
@@ -263,14 +284,41 @@ static get observedAttributes() {
   setHighlight() {
     if (this.getAttribute("hl")) {
       var hl = this.getAttribute("hl");
-      this.shadowRoot.querySelectorAll("tr td:nth-child(2)").forEach(function (team) {
-		  if (team.innerText.trim() == hl) 
+
+      this.shadowRoot.querySelectorAll("tr td:nth-child(2)").forEach(function (team,index) {
+		  if (team.innerText.trim() == hl){
 		  	team.closest("tr").classList.add("hl");
-		  else 
+        this.selectedIndex=index;
+      }
+		  else{
 		  	team.closest("tr").classList.remove("hl");
-        });
-    }
+      };
+    },this)
+  }
+  if (this.getAttribute("mini")=="true") {this.setMini("set");}
+    
   };
+
+  setMini(mode){
+    if (mode=="set") {
+      var middle = (this.selectedIndex ==null || this.selectedIndex <= 2) ? 2 : this.selectedIndex;
+      var show = [middle-2, middle-1, middle, middle+1, middle+2]
+      this.shadowRoot.querySelectorAll("table tbody tr").forEach(function (team,index) {
+        if (!show.includes(index)){
+          team.setAttribute("hidden","true");
+        }
+      })
+    }
+
+    else if(mode=="unset"){
+      console.log("asdf")
+
+      this.shadowRoot.querySelectorAll("table tbody tr[hidden]").forEach(function (team,index) {
+        team.removeAttribute("hidden");
+      })
+
+    }
+  }
 
   setTheme(themeID){
     if(this.themes[themeID]){
