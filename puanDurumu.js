@@ -15,12 +15,13 @@ puanDurumuTemplate.innerHTML = `
         --gr3:linear-gradient(90deg, var(--light), var(--lighter));
         --gr4:linear-gradient(10deg, var(--light), var(--lighter));
 
-        --cell-pad: 5px;
+        --cell-pad: 10px;
         --border-radius:3px;
         --baslik:block;
-        display:block;
         font-size:12px;
-        
+        display: flex;
+        align-items: flex-end;
+        flex-direction: column;
         border-radius:var(--border-radius);
         color:var(--main);
         background:var(--lighter);
@@ -37,7 +38,8 @@ puanDurumuTemplate.innerHTML = `
     :host([mini="true"]) table tbody tr td:nth-child(5),
     :host([mini="true"]) table tbody tr td:nth-child(6),
     :host([mini="true"]) table tbody tr td:nth-child(7),
-    :host([mini="true"]) table tbody tr td:nth-child(8){
+    :host([mini="true"]) table tbody tr td:nth-child(8)
+    {
       display:none;
     }
     
@@ -127,8 +129,21 @@ puanDurumuTemplate.innerHTML = `
         padding:var(--cell-pad) 2.5px;
     }
 
-/*LOADING */
+    .expand{
+      box-sizing: border-box;
+      padding: var(--cell-pad);
+      width: 100%;
+      background: #00000070;
+      font-weight: 800;
+      color: white;
+      cursor:pointer;
+    }
 
+    :host([expandable="false"]) .expand{
+      display:none;
+    }
+
+/*LOADING */
 .loading table tr td
  {
 	width: 100%;
@@ -169,7 +184,8 @@ puanDurumuTemplate.innerHTML = `
 <div class="puanDurumuHTML">
     
 </div>
-`
+<div class="expand"></div>
+`;
 
 class PuanDurumu extends HTMLElement {
   constructor() {
@@ -177,10 +193,10 @@ class PuanDurumu extends HTMLElement {
 
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(puanDurumuTemplate.content.cloneNode(true));
-    //this.tableHTML = this.getAttribute("data-table-html") || defaultTableHTML;
-    //this.shadowRoot.querySelector("h5.title").innerText = this.getAttribute("lig");
-    this.shadowRoot.querySelector(".puanDurumuHTML").innerHTML = defaultTableHTML;
+    this.shadowRoot.querySelector(".puanDurumuHTML").innerHTML = this.defaultTableHTML;
+    this.expandButton=this.shadowRoot.querySelector(".expand");
     this.selectedIndex=null;
+    this.handleExpandButton = this.handleExpandButton.bind(this);
     this.setTableHTML = this.setTableHTML.bind(this);
     this.setTableHTMLFromJSON = this.setTableHTMLFromJSON.bind(this);
     this.setHighlight = this.setHighlight.bind(this);
@@ -188,18 +204,17 @@ class PuanDurumu extends HTMLElement {
   }
 
   connectedCallback() {
-    //this.tableHTML = this.getAttribute("data-table-html") || defaultTableHTML;
     this.shadowRoot.querySelector(".puanDurumuHTML").classList.add("loading");
-    //this.fetchTableHTML(this.getAttribute("lig"))
     this.fetchTableJSON(this.getAttribute("lig"));
     if(this.getAttribute("theme")){
       this.setTheme(this.getAttribute("theme"));
     }
-    //document.head.innerHTML += `<link rel="preconnect" href="https://fonts.gstatic.com"><link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&display=swap" rel="stylesheet">`;
+    this.expandButton.addEventListener("click",this.handleExpandButton);
+
   }
 
   disconnectedCallback() {
-   
+    this.expandButton.removeEventListener("click",this.handleExpandButton);
 }
 
 static get observedAttributes() {
@@ -212,7 +227,6 @@ static get observedAttributes() {
     this.setHighlight();
   }
  
-  //else if(name == "lig") this.fetchTableHTML(newVal);
   else if(name == "lig") this.fetchTableJSON(newVal);
   else if(name == "theme") {
     this.setTheme(newVal);
@@ -220,7 +234,7 @@ static get observedAttributes() {
 
   else if(name == "mini") {
     if(newVal=="true"){
-      this.setMini("set")
+      this.setMini("set");
      }
      else{
       this.setMini("unset");
@@ -235,7 +249,7 @@ static get observedAttributes() {
         return res.text();
       })
       .then(this.setTableHTML);
-  };
+  }
 
   setTableHTML(html) {
     this.shadowRoot.querySelector(".puanDurumuHTML").innerHTML = html;
@@ -243,7 +257,7 @@ static get observedAttributes() {
       .querySelector(".puanDurumuHTML")
       .classList.remove("loading");
     this.setHighlight();
-  };
+  }
 
   fetchTableJSON(lig) {
     fetch(`https://service.kod8.app/data/spor/json/puan/${lig}.json`)
@@ -251,9 +265,7 @@ static get observedAttributes() {
         return res.json();
       })
       .then(this.setTableHTMLFromJSON);
-  };
-
-  //Render by using json data
+  }
 
   setTableHTMLFromJSON(data) {
     var html = "";
@@ -264,7 +276,7 @@ static get observedAttributes() {
       <tr>
         ${
           data.columns.map(col=>{
-            return `<th><abbr title=${this.abbr[col]}>${col}</abbr></th>`
+            return `<th><abbr title=${this.abbr[col]}>${col}</abbr></th>`;
           }).join("\n")
         } 
       </tr>
@@ -277,15 +289,15 @@ static get observedAttributes() {
       var row = document.createElement("tr");
       var trInner = "";
       data.columns.forEach((col)=>{
-        var cell = `<td>${team[col]}</td>`
+        var cell = `<td>${team[col]}</td>`;
         trInner+=cell;
-      })
+      });
       row.innerHTML = trInner;
       table.querySelector("tbody").appendChild(row);
-    })
-    html=table.outerHTML
+    });
+    html=table.outerHTML;
     this.setTableHTML(html);
-  };
+  }
 
 
   setHighlight() {
@@ -299,37 +311,47 @@ static get observedAttributes() {
       }
 		  else{
 		  	team.closest("tr").classList.remove("hl");
-      };
-    },this)
+      }
+    },this);
   }
-  if (this.getAttribute("mini")=="true") {this.setMini("set");}
-    
-  };
+  this.getAttribute("mini")=="true" ? this.setMini("set"): this.setMini("unset");
+  }
 
   setMini(mode){
     if (mode=="set") {
       var middle = (this.selectedIndex ==null || this.selectedIndex <= 2) ? 2 : this.selectedIndex;
-      var show = [middle-2, middle-1, middle, middle+1, middle+2]
+      var show = [middle-2, middle-1, middle, middle+1, middle+2];
       this.shadowRoot.querySelectorAll("table tbody tr").forEach(function (team,index) {
         if (!show.includes(index)){
           team.setAttribute("hidden","true");
         }
-      })
+      });
+      this.expandButton.innerText="Genişlet";
     }
 
     else if(mode=="unset"){
     
       this.shadowRoot.querySelectorAll("table tbody tr[hidden]").forEach(function (team,index) {
         team.removeAttribute("hidden");
-      })
+      });
+      this.expandButton.innerText="Daralt";
+    }
+  }
 
+  handleExpandButton(e){
+    var el = e.target;
+    if (this.getAttribute("mini")=="true"){
+      this.setAttribute("mini","false");
+    }
+    else{
+      this.setAttribute("mini","true");
     }
   }
 
   setTheme(themeID){
     if(this.themes[themeID]){
       for(var color in this.themes[themeID]){
-        this.style.setProperty(color, this.themes[themeID][color])
+        this.style.setProperty(color, this.themes[themeID][color]);
       }
     }
   }
@@ -424,9 +446,9 @@ static get observedAttributes() {
     "Av":"Averaj",
     "P":"Puan"
   }
-}
 
-var defaultTableHTML = 
+
+defaultTableHTML = 
 `
 <table class="liste">
 <caption>
@@ -452,7 +474,6 @@ var defaultTableHTML =
 </table>
     
 `
+}
 
-window.customElements.define("puan-durumu", PuanDurumu)
-
- 
+window.customElements.define("puan-durumu", PuanDurumu);

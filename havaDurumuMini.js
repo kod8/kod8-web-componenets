@@ -206,9 +206,7 @@ havaDurumuMiniTemplate.innerHTML = `
     </div>
     
 </div>
-
-
-`
+`;
 
 class havaDurumuMini extends HTMLElement {
   constructor() {
@@ -229,7 +227,7 @@ class havaDurumuMini extends HTMLElement {
 
     //Initialize select element
     for(var plate in this.cities){
-      var option = document.createElement("option")
+      var option = document.createElement("option");
       option.value = plate;
       option.innerText = this.cities[plate].name;
       this.citySelectElement.appendChild(option);
@@ -239,7 +237,7 @@ class havaDurumuMini extends HTMLElement {
 
   connectedCallback() {
     var city = localStorage.getItem("city") || this.getAttribute("city") || "1";
-    this.renderCity(city)
+    this.renderCity(city);
     this.fetchData();
 
     this.citySelectElement.addEventListener("change",this.handleSelectInput);
@@ -247,7 +245,7 @@ class havaDurumuMini extends HTMLElement {
   }
 
   disconnectedCallback() {
-    this.citySelectElement.removeEventListener("change",this.handleSelectInput)
+    this.citySelectElement.removeEventListener("change",this.handleSelectInput);
 }
 
 static get observedAttributes() {
