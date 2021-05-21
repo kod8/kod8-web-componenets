@@ -17,6 +17,7 @@ puanDurumuTemplate.innerHTML = `
 
         --cell-pad: 5px;
         --border-radius:3px;
+        --baslik:block;
         display:block;
         font-size:12px;
         
@@ -27,11 +28,16 @@ puanDurumuTemplate.innerHTML = `
     		background:var(--gr2);
     }
 
-
+    :host([mini="true"]) table thead tr th:nth-child(4),
+    :host([mini="true"]) table thead tr th:nth-child(5),
     :host([mini="true"]) table thead tr th:nth-child(6),
     :host([mini="true"]) table thead tr th:nth-child(7),
+    :host([mini="true"]) table thead tr th:nth-child(8),
+    :host([mini="true"]) table tbody tr td:nth-child(4),
+    :host([mini="true"]) table tbody tr td:nth-child(5),
     :host([mini="true"]) table tbody tr td:nth-child(6),
-    :host([mini="true"]) table tbody tr td:nth-child(7){
+    :host([mini="true"]) table tbody tr td:nth-child(7),
+    :host([mini="true"]) table tbody tr td:nth-child(8){
       display:none;
     }
     
@@ -57,6 +63,7 @@ puanDurumuTemplate.innerHTML = `
     }
 
     caption h2{
+      display:var(--baslik);
       text-align:left;
       margin:0;
       padding:10px 20px;
@@ -311,8 +318,7 @@ static get observedAttributes() {
     }
 
     else if(mode=="unset"){
-      console.log("asdf")
-
+    
       this.shadowRoot.querySelectorAll("table tbody tr[hidden]").forEach(function (team,index) {
         team.removeAttribute("hidden");
       })
