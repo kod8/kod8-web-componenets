@@ -26,7 +26,36 @@ mansetTemplate.innerHTML = `
         padding: 2em 1em;
         border-radius: 5px;
     } 
+    :host([type=grid]) .splide__list{
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding: 1em!important;
+      box-sizing: border-box;
+    }
 
+    :host([type=grid]) .splide__slide{
+      margin-bottom: 2em;
+    }
+
+    :host([type=grid]) .splide__slide img{
+      width:250px;
+    }
+
+    :host([type=grid]) .gazete.item span{
+      bottom: 0;
+      height: 5em;
+      border-radius:0;
+      display:flex;
+      width:100%;
+      color: #ffffff;
+      background: #000000cc;
+    }
+
+    :host([type=grid]) .gazete.item:hover img, :host([type=grid]) .gazete.item:hover span{
+      transform:unset;
+    }
 
     .title{
       z-index: 1;
@@ -39,6 +68,10 @@ mansetTemplate.innerHTML = `
     color: var(--light);
     border-radius: 5px;
     border-top: 5px solid var(--birincil);
+    }
+
+    :host([title="hidden"]) .title{
+      display:none;
     }
 
     .list{
@@ -108,6 +141,19 @@ mansetTemplate.innerHTML = `
       opacity: .8;
       background: var(--ikincil);
   }
+
+
+@media (min-width: 320px) and (max-width: 480px) {
+  
+  :host([type=grid]) .splide__slide img{
+    width:100px;
+  }
+
+  :host([type=grid]) .splide__slide span{
+    font-size:12px;
+  }
+  
+}
 
 </style>
 `;
@@ -207,6 +253,10 @@ class gazeteMansetleriMini extends HTMLElement {
           },
         }
       } ).mount();
+
+      if(this.getAttribute("type")=="grid"){
+        this.splide.destroy();
+      }
   }
 
   openModal(e){
@@ -270,8 +320,10 @@ loadExternalFile(filename, filetype, isAsync,cb) {
     fileref.setAttribute("href", filename);
     isAsync ? fileref.setAttribute("async", "") : "";
   }
-  if (typeof fileref != "undefined")
+  if (typeof fileref != "undefined"){
     document.getElementsByTagName("head")[0].appendChild(fileref);
+  }
+    
    if (cb){ fileref.addEventListener("load", function(){
       this[cb]();
     }.bind(this));

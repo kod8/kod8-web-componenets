@@ -15,6 +15,7 @@
     <script defer src="./havaDurumuMini.js"></script>
     <script defer src="./namazVaktiMini.js"></script>
     <script defer src="./gazeteMansetleriMini.js"></script>
+    <script defer src="./yerelGazeteler.js"></script>
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
@@ -28,9 +29,18 @@
 
 <section class="gazete">
         <h3>Gazeteler</h3>
-        <div class="componenetContainer" style="width: 100%;">
-            <gazete-mansetleri-mini ></gazete-mansetleri-mini>
+
+        <div class="componenetContainer" style="width: 85vw;">
+            <yerel-gazeteler city="81"  ></yerel-gazeteler>
         </div>
+        <div class="componenetContainer" style="width: 85vw;margin-bottom:1em;">
+            <gazete-mansetleri-mini></gazete-mansetleri-mini>
+        </div>
+        <div class="componenetContainer" style="width: 85vw;">
+            <gazete-mansetleri-mini title="hidden" type="grid"></gazete-mansetleri-mini>
+        </div>
+
+        
 
     </section>
 
